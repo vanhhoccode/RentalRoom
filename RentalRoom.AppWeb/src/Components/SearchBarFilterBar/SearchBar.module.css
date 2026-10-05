@@ -1,0 +1,11 @@
+.searchWrapper {
+  @apply flex items-center bg-[#eff4ff] rounded-xl px-4 py-2.5 gap-2 w-full;
+}
+
+.searchIcon {
+  @apply text-[#6d7a77] text-[20px];
+}
+
+.searchInput {
+  @apply bg-transparent border-none outline-none text-xs md:text-sm text-[#0b1c30] placeholder:text-[#6d7a77] w-full;
+}

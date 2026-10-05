@@ -1,0 +1,49 @@
+@import "tailwindcss";
+/* BreadcrumbPageHeader.module.css */
+.headerContainer {
+  @apply w-full bg-white shadow-sm py-4 mb-6 font-sans antialiased text-[#0b1c30];
+}
+
+.innerWrapper {
+  @apply max-w-[1280px] mx-auto px-4 lg:px-6 flex flex-col gap-3;
+}
+
+.navBreadcrumb {
+  @apply flex items-center gap-1.5 text-xs text-[#3d4947] flex-wrap;
+}
+
+.homeIcon {
+  @apply text-[16px];
+}
+
+.breadcrumbLink {
+  @apply hover:text-[#00685f] transition-colors;
+}
+
+.chevronIcon {
+  @apply text-[14px] text-[#6d7a77];
+}
+
+.breadcrumbActive {
+  @apply text-[#00685f] font-semibold;
+}
+
+.titleActionsRow {
+  @apply flex flex-col md:flex-row md:items-center justify-between gap-4;
+}
+
+.titleGroup {
+  @apply flex flex-col gap-1;
+}
+
+.pageTitle {
+  @apply text-2xl lg:text-[32px] font-bold text-[#0b1c30] tracking-tight;
+}
+
+.pageSubtitle {
+  @apply text-xs md:text-sm text-[#3d4947] leading-relaxed;
+}
+
+.actionsSlot {
+  @apply flex items-center gap-3 flex-wrap self-start md:self-auto;
+}

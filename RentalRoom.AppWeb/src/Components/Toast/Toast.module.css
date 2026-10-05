@@ -1,0 +1,42 @@
+@reference "../../../index.css";
+
+.toastWrapper {
+  @apply fixed bottom-6 right-6 z-[60] flex items-center gap-3 bg-[#ffffff] text-[#0b1c30] p-4 rounded-2xl shadow-xl border border-[#e5eeff] max-w-md transform transition-all duration-300;
+}
+
+.toastEnter {
+  @apply translate-y-0 opacity-100;
+}
+
+.toastExit {
+  @apply translate-y-10 opacity-0 pointer-events-none;
+}
+
+.iconBox {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center shrink-0;
+}
+.iconSuccess {
+  @apply bg-[#00685f] text-white;
+}
+.iconError {
+  @apply bg-[#ba1a1a] text-white;
+}
+.iconInfo {
+  @apply bg-[#5bb8fe]/20 text-[#006398];
+}
+
+.content {
+  @apply flex flex-col min-w-0 pr-2;
+}
+
+.title {
+  @apply font-['Plus_Jakarta_Sans'] text-[16px] font-bold text-[#0b1c30];
+}
+
+.message {
+  @apply font-['Be_Vietnam_Pro'] text-[12px] text-[#3d4947] truncate;
+}
+
+.btnClose {
+  @apply text-[#6d7a77] hover:text-[#0b1c30] p-1 rounded-lg transition-colors flex items-center justify-center;
+}

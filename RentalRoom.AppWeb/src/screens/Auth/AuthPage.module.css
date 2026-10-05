@@ -1,0 +1,127 @@
+@reference "../../index.css";
+/* AuthPage.module.css */
+.pageContainer {
+  @apply bg-[#f8f9ff] font-sans text-[#0b1c30] antialiased min-h-screen flex flex-col justify-between;
+}
+
+.mainSection {
+  @apply w-full pt-28 pb-16 bg-[#f8f9ff];
+}
+
+.contentWrapper {
+  @apply relative w-full overflow-hidden px-4 lg:px-6 max-w-[1280px] mx-auto;
+}
+
+.blobLeft {
+  @apply absolute -top-24 -left-24 w-96 h-96 bg-[#89f5e7]/20 rounded-full blur-3xl pointer-events-none -z-10;
+}
+
+.blobRight {
+  @apply absolute top-1/2 -right-32 w-96 h-96 bg-[#5bb8fe]/20 rounded-full blur-3xl pointer-events-none -z-10;
+}
+
+.gridContainer {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch;
+}
+
+/* Cột trái (Hero Banner & Giới thiệu) */
+.leftColumn {
+  @apply lg:col-span-5 flex flex-col justify-between bg-white rounded-3xl p-6 lg:p-10 shadow-xl relative overflow-hidden;
+}
+
+.leftGradientBg {
+  @apply absolute inset-0 bg-gradient-to-br from-[#89f5e7]/15 via-transparent to-[#dce9ff]/40 pointer-events-none;
+}
+
+.badgeVerified {
+  @apply inline-flex items-center gap-1 bg-[#00855b]/10 text-[#006947] px-3.5 py-1.5 rounded-full w-fit;
+}
+
+.heroTitle {
+  @apply text-3xl font-bold text-[#0b1c30] leading-tight;
+}
+
+.heroHighlight {
+  @apply text-[#00685f];
+}
+
+.heroDesc {
+  @apply text-sm text-[#3d4947];
+}
+
+.featureList {
+  @apply flex flex-col gap-4 pt-2;
+}
+
+.featureItem {
+  @apply flex items-start gap-3 bg-[#eff4ff]/80 p-3.5 rounded-2xl;
+}
+
+.featureIconGreen {
+  @apply w-9 h-9 rounded-xl bg-[#6ffbbe] flex items-center justify-center flex-shrink-0 text-[#002113] shadow-sm;
+}
+
+.featureIconTeal {
+  @apply w-9 h-9 rounded-xl bg-[#89f5e7] flex items-center justify-center flex-shrink-0 text-[#00201d] shadow-sm;
+}
+
+.bannerCard {
+  @apply relative z-10 mt-8 rounded-2xl overflow-hidden shadow-md;
+}
+
+.bannerImageBg {
+  @apply h-40 w-full bg-cover bg-center relative;
+}
+
+.bannerOverlay {
+  @apply absolute inset-0 bg-gradient-to-t from-[#0b1c30]/85 via-[#0b1c30]/30 to-transparent flex items-end p-4;
+}
+
+/* Cột phải (Form đăng ký / đăng nhập) */
+.rightColumn {
+  @apply lg:col-span-7 bg-white rounded-3xl p-6 lg:p-10 shadow-xl flex flex-col justify-start;
+}
+
+.tabSwitcher {
+  @apply w-full bg-[#eff4ff] p-1.5 rounded-2xl flex items-center mb-6;
+}
+
+.tabButton {
+  @apply flex-1 py-2 rounded-xl text-sm font-semibold transition-all text-center flex items-center justify-center gap-2 cursor-pointer border-none bg-transparent;
+}
+
+.tabActive {
+  @apply bg-[#00685f] text-white shadow-sm;
+}
+
+.tabInactive {
+  @apply text-[#3d4947] hover:text-[#0b1c30];
+}
+
+.roleSelectionContainer {
+  @apply flex flex-col gap-2;
+}
+
+.roleCard {
+  @apply cursor-pointer p-4 rounded-2xl border-2 transition-all;
+}
+
+.roleCardRenterActive {
+  @apply border-[#00685f] bg-[#89f5e7]/10;
+}
+
+.roleCardLandlordActive {
+  @apply border-[#006398] bg-[#5bb8fe]/15;
+}
+
+.roleCardInactive {
+  @apply border-transparent bg-[#eff4ff];
+}
+
+.formContainer {
+  @apply flex flex-col gap-4;
+}
+
+.linkButton {
+  @apply text-[#00685f] font-bold hover:underline cursor-pointer bg-transparent border-none p-0;
+}

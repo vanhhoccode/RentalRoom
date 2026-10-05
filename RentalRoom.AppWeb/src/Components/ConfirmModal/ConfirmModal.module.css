@@ -1,0 +1,56 @@
+@reference "../../../index.css";
+
+.overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#213145]/60 backdrop-blur-sm transition-all duration-200;
+}
+
+.modalContent {
+  @apply relative w-full max-w-md bg-[#ffffff] rounded-2xl shadow-2xl p-6 transform transition-transform duration-200 flex flex-col gap-4;
+}
+
+.header {
+  @apply flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left;
+}
+
+.iconWrapper {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-sm;
+}
+.iconDanger {
+  @apply bg-[#ffdad6] text-[#ba1a1a];
+}
+.iconSuccess {
+  @apply bg-[#89f5e7]/40 text-[#00685f];
+}
+.iconWarning {
+  @apply bg-[#ffe082]/40 text-[#ff8f00];
+}
+
+.textContainer {
+  @apply flex flex-col mt-1 sm:mt-0;
+}
+
+.title {
+  @apply font-['Plus_Jakarta_Sans'] text-[18px] font-bold text-[#0b1c30];
+}
+
+.description {
+  @apply font-['Be_Vietnam_Pro'] text-[14px] text-[#3d4947] mt-1 leading-relaxed;
+}
+
+.actionGroup {
+  @apply flex items-center justify-end gap-3 pt-2 mt-2 border-t border-[#eff4ff];
+}
+
+.btnCancel {
+  @apply flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-[#eff4ff] hover:bg-[#dce9ff] text-[#0b1c30] font-['Plus_Jakarta_Sans'] font-semibold text-[14px] transition-colors;
+}
+
+.btnConfirm {
+  @apply flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-white shadow-sm transition-all active:scale-[0.98];
+}
+.btnConfirmDanger {
+  @apply bg-[#ba1a1a] hover:bg-[#93000a];
+}
+.btnConfirmSuccess {
+  @apply bg-[#00685f] hover:bg-[#008378];
+}

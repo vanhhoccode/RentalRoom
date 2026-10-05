@@ -1,0 +1,60 @@
+@reference "../../index.css";
+
+.badgeBase {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold transition-colors;
+}
+
+/* Kích thước */
+.sizeSm {
+  @apply px-2.5 py-0.5 text-[11px];
+}
+.sizeMd {
+  @apply px-3 py-1 text-[12px];
+}
+.sizeLg {
+  @apply px-4 py-1.5 text-[14px];
+}
+
+/* Trạng thái: Đang cho thuê (Available) */
+.statusAvailable {
+  @apply bg-[#6ffbbe]/30 text-[#006947];
+}
+.dotAvailableWrapper {
+  @apply relative flex h-2 w-2 shrink-0;
+}
+.dotAvailablePing {
+  @apply animate-pulse absolute inline-flex h-full w-full rounded-full bg-[#00855b] opacity-75;
+}
+.dotAvailableCore {
+  @apply relative inline-flex rounded-full h-2 w-2 bg-[#006947];
+}
+
+/* Trạng thái: Chờ duyệt (Pending) */
+.statusPending {
+  @apply bg-[#ffdad6] text-[#93000a];
+}
+.dotPendingWrapper {
+  @apply relative flex h-2 w-2 shrink-0;
+}
+.dotPendingPing {
+  @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ba1a1a] opacity-75;
+}
+.dotPendingCore {
+  @apply relative inline-flex rounded-full h-2 w-2 bg-[#ba1a1a];
+}
+
+/* Trạng thái: Đã cho thuê (Rented) */
+.statusRented {
+  @apply bg-[#e5eeff] text-[#3d4947];
+}
+.dotRented {
+  @apply w-1.5 h-1.5 rounded-full bg-[#6d7a77] shrink-0;
+}
+
+/* Trạng thái: Từ chối (Rejected) */
+.statusRejected {
+  @apply bg-[#e5eeff] text-[#001d31];
+}
+.iconRejected {
+  @apply text-[14px] shrink-0;
+}

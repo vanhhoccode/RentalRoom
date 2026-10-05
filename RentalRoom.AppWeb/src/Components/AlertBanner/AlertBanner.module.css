@@ -1,0 +1,68 @@
+@import "tailwindcss";
+/* AlertBanner.module.css */
+.bannerContainer {
+  @apply w-full p-4 md:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-sans antialiased relative;
+}
+
+/* Các biến thể màu sắc (Variants) */
+.infoVariant {
+  @apply bg-[#eff4ff] text-[#0b1c30] border-l-4 border-[#006398];
+}
+
+.warningVariant {
+  @apply bg-[#ffdad6]/60 text-[#93000a] border-l-4 border-[#ba1a1a];
+}
+
+.successVariant {
+  @apply bg-[#6ffbbe]/20 text-[#002113] border-l-4 border-[#006947];
+}
+
+.gradientVariant {
+  @apply bg-gradient-to-r from-[#dce9ff] via-[#e5eeff] to-[#5bb8fe]/20 text-[#0b1c30] shadow-sm;
+}
+
+/* Màu của ô chứa Icon */
+.iconBoxInfo {
+  @apply bg-[#006398] text-white;
+}
+
+.iconBoxWarning {
+  @apply bg-[#ba1a1a] text-white;
+}
+
+.iconBoxSuccess {
+  @apply bg-[#006947] text-white;
+}
+
+.iconBoxGradient {
+  @apply bg-[#00685f] text-white;
+}
+
+/* Các thành phần con giao diện */
+.iconWrapper {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm;
+}
+
+.contentWrapper {
+  @apply flex items-start sm:items-center gap-3.5;
+}
+
+.titleText {
+  @apply text-sm md:text-base font-bold tracking-tight;
+}
+
+.messageText {
+  @apply text-xs md:text-sm text-[#3d4947] leading-relaxed;
+}
+
+.actionWrapper {
+  @apply flex items-center gap-3 flex-shrink-0 self-end sm:self-center;
+}
+
+.actionBtn {
+  @apply px-4 py-2 bg-white hover:bg-[#eff4ff] text-[#00685f] rounded-xl text-xs md:text-sm font-semibold shadow-sm transition-all flex items-center gap-1.5;
+}
+
+.closeBtn {
+  @apply p-1.5 text-[#6d7a77] hover:text-[#0b1c30] rounded-full transition-colors;
+}

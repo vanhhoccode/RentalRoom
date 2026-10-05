@@ -1,0 +1,61 @@
+@reference "../../index.css";
+
+.pageContainer {
+  @apply bg-[#f8f9ff] font-sans antialiased min-h-screen pt-20;
+}
+
+/* Ticker & Hero */
+.tickerBar {
+  @apply w-full bg-[#dce9ff]/60 backdrop-blur-md;
+}
+
+.heroSection {
+  @apply relative w-full bg-gradient-to-b from-[#eff4ff] via-[#eff4ff]/40 to-[#f8f9ff] pt-8 pb-12 overflow-hidden;
+}
+
+.searchConsole {
+  @apply bg-white rounded-2xl shadow-xl p-6 lg:p-8 max-w-5xl mx-auto mt-8;
+}
+
+.filterInputGroup {
+  @apply flex flex-col bg-[#eff4ff]/60 hover:bg-[#eff4ff] rounded-xl px-3.5 py-2 transition-all;
+}
+
+.filterSelect {
+  @apply bg-transparent text-[16px] font-semibold text-[#0b1c30] focus:outline-none cursor-pointer w-full;
+}
+
+/* Main Content */
+.mainContentSection {
+  @apply max-w-[1280px] mx-auto px-4 lg:px-6 py-12 w-full;
+}
+
+.gridContainer {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6;
+}
+
+/* Trạng thái Loading / Lỗi */
+.loadingState {
+  @apply flex flex-col items-center justify-center py-20 text-[#3d4947];
+}
+
+.spinner {
+  @apply w-10 h-10 border-4 border-[#00685f]/20 border-t-[#00685f] rounded-full animate-spin mb-4;
+}
+
+.errorState {
+  @apply bg-[#ffdad6] text-[#93000a] p-4 rounded-xl mt-6;
+}
+
+.emptyState {
+  @apply bg-white p-8 rounded-xl text-center mt-6 shadow-sm border border-[#bcc9c6];
+}
+
+/* Discovery Section */
+.discoverySection {
+  @apply bg-[#eff4ff]/50 py-12 w-full;
+}
+
+.discoveryCard {
+  @apply bg-white p-6 rounded-2xl shadow-sm;
+}

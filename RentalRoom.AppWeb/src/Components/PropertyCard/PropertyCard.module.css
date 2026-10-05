@@ -1,0 +1,260 @@
+@import "tailwindcss";
+/* PropertyCard.module.css */
+.cardArticle {
+  @apply bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative font-sans antialiased;
+}
+
+.cardRentedOpacity {
+  @apply opacity-90;
+}
+
+/* Media Header */
+.mediaHeader {
+  @apply relative aspect-[16/10] overflow-hidden bg-[#d3e4fe];
+}
+
+.cardImage {
+  @apply w-full h-full object-cover group-hover:scale-105 transition-transform duration-500;
+}
+
+.imageRentedEffect {
+  @apply grayscale-[40%] filter brightness-90;
+}
+
+/* Status Badges */
+.badgeAvailable {
+  @apply absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md shadow-md;
+}
+
+.pingDot {
+  @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-[#006947] opacity-75;
+}
+
+.staticDotAvailable {
+  @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-[#006947];
+}
+
+.statusTextAvailable {
+  @apply text-[11px] font-bold text-[#006947];
+}
+
+.badgeRented {
+  @apply absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#cbdbf5]/95 backdrop-blur-md shadow-md;
+}
+
+.staticDotRented {
+  @apply inline-block w-2.5 h-2.5 rounded-full bg-[#6d7a77];
+}
+
+.statusTextRented {
+  @apply text-[11px] font-bold text-[#3d4947];
+}
+
+/* Discount Promotional Tag */
+.discountTag {
+  @apply absolute top-12 left-3 z-10 flex items-center gap-1 px-2.5 py-0.5 bg-[#ba1a1a] text-white rounded-full text-[11px] font-bold shadow-sm animate-bounce;
+}
+
+.discountIcon {
+  @apply text-[13px];
+}
+
+/* Favorite / Heart Button */
+.favoriteBtn {
+  @apply absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#3d4947] hover:text-[#ba1a1a] transition-all shadow-sm;
+}
+
+.favoriteIcon {
+  @apply text-[20px];
+}
+
+/* Photo Counter */
+.photoCounter {
+  @apply absolute bottom-3 right-3 px-2 py-0.5 rounded-md bg-[#213145]/60 text-white text-[11px] flex items-center gap-1 backdrop-blur-sm;
+}
+
+.cameraIcon {
+  @apply text-[13px];
+}
+
+/* Data Cluster Body */
+.cardBody {
+  @apply p-4 flex flex-col flex-1 justify-between gap-3;
+}
+
+.priceAreaRow {
+  @apply flex items-baseline justify-between mb-2;
+}
+
+.priceWrapper {
+  @apply flex items-baseline gap-1;
+}
+
+.currentPrice {
+  @apply text-[20px] font-bold tracking-tight font-sans;
+}
+
+.priceRentedStyle {
+  @apply text-[#6d7a77] line-through;
+}
+
+.priceNormalStyle {
+  @apply text-[#ba1a1a];
+}
+
+.pricePeriod {
+  @apply text-xs text-[#6d7a77];
+}
+
+.oldPrice {
+  @apply text-xs text-[#6d7a77] line-through ml-1;
+}
+
+.areaBadge {
+  @apply text-xs font-semibold px-2 py-0.5 bg-[#e5eeff] text-[#3d4947] rounded-md;
+}
+
+.cardTitle {
+  @apply text-base font-semibold line-clamp-2 cursor-pointer mb-2 transition-colors;
+}
+
+.titleRentedStyle {
+  @apply text-[#3d4947];
+}
+
+.titleNormalStyle {
+  @apply text-[#0b1c30] hover:text-[#00685f];
+}
+
+.locationContainer {
+  @apply flex items-start gap-1.5 text-[#3d4947] text-xs mb-3;
+}
+
+.locationIcon {
+  @apply text-[18px] flex-shrink-0 mt-0.5;
+}
+
+.locationIconRented {
+  @apply text-[#6d7a77];
+}
+
+.locationIconNormal {
+  @apply text-[#00685f];
+}
+
+.addressTextWrapper {
+  @apply flex flex-col truncate;
+}
+
+.addressMainText {
+  @apply font-medium;
+}
+
+.addressMainRented {
+  @apply text-[#3d4947];
+}
+
+.addressMainNormal {
+  @apply text-[#0b1c30];
+}
+
+.schoolProximityText {
+  @apply text-[#6d7a77] text-[12px] truncate;
+}
+
+.featuresContainer {
+  @apply flex flex-wrap gap-1.5 mb-4;
+}
+
+.featureChip {
+  @apply px-2 py-0.5 rounded text-[11px] font-medium;
+}
+
+.featureChipRented {
+  @apply bg-[#e5eeff] text-[#6d7a77];
+}
+
+.featureChipNormal {
+  @apply bg-[#e5eeff] text-[#3d4947];
+}
+
+.suggestionBox {
+  @apply bg-[#dce9ff]/60 p-2 rounded-xl flex items-center gap-2 text-[#3d4947] text-xs mb-3;
+}
+
+.suggestionIcon {
+  @apply text-[#006398] text-[18px] flex-shrink-0;
+}
+
+/* Footer Action Sections */
+.favoriteRentedFooter {
+  @apply flex flex-col gap-2 pt-2;
+}
+
+.findSimilarBtn {
+  @apply w-full flex items-center justify-center gap-1.5 py-2.5 bg-[#00685f] hover:bg-[#008378] text-white rounded-xl text-xs font-semibold transition-colors shadow-sm;
+}
+
+.deleteFavBtn {
+  @apply py-2 px-2 bg-[#eff4ff] hover:bg-[#ffdad6]/40 text-[#ba1a1a] text-xs rounded-lg flex items-center justify-center gap-1 transition-colors font-semibold;
+}
+
+.standardFooter {
+  @apply pt-2 border-t border-transparent flex items-center justify-between bg-[#eff4ff]/40 rounded-xl p-2;
+}
+
+.landlordInfoWrapper {
+  @apply flex items-center gap-2 min-w-0;
+}
+
+.landlordAvatar {
+  @apply w-8 h-8 rounded-full object-cover flex-shrink-0;
+}
+
+.avatarRented {
+  @apply opacity-70;
+}
+
+.landlordTextCol {
+  @apply flex flex-col truncate;
+}
+
+.landlordName {
+  @apply text-xs font-semibold truncate;
+}
+
+.landlordNameRented {
+  @apply text-[#3d4947];
+}
+
+.landlordNameNormal {
+  @apply text-[#0b1c30];
+}
+
+.verifiedStatusRow {
+  @apply text-[11px] flex items-center gap-0.5;
+}
+
+.verifiedGreen {
+  @apply text-[#006947];
+}
+
+.verifiedGray {
+  @apply text-[#6d7a77];
+}
+
+.verifiedIcon {
+  @apply text-[13px];
+}
+
+.contactBtn {
+  @apply flex items-center gap-1 px-3 py-1.5 rounded-xl transition-colors text-xs font-semibold;
+}
+
+.contactBtnRented {
+  @apply bg-[#e5eeff] text-[#3d4947] hover:bg-[#dce9ff];
+}
+
+.contactBtnNormal {
+  @apply bg-[#006398] text-white hover:bg-[#004b73];
+}

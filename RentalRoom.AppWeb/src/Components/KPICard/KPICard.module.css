@@ -1,0 +1,58 @@
+@reference "../../index.css";
+
+.card {
+  @apply bg-[#ffffff] p-4 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md transition-shadow border border-[#e5eeff];
+}
+
+.content {
+  @apply flex flex-col;
+}
+
+.label {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold text-[12px] text-[#3d4947] tracking-wide;
+}
+
+.valueWrapper {
+  @apply mt-1 flex items-baseline gap-2;
+}
+
+.value {
+  @apply font-['Plus_Jakarta_Sans'] text-[32px] font-bold leading-none tracking-tight;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1 font-['Plus_Jakarta_Sans'] font-medium text-[11px] px-2 py-0.5 rounded-full;
+}
+
+.iconBox {
+  @apply w-12 h-12 rounded-xl flex items-center justify-center shrink-0;
+}
+
+/* Các biến thể màu sắc */
+.themePrimary .value {
+  @apply text-[#00685f];
+}
+.themePrimary .iconBox {
+  @apply bg-[#89f5e7]/30 text-[#00685f];
+}
+
+.themeSecondary .value {
+  @apply text-[#006398];
+}
+.themeSecondary .iconBox {
+  @apply bg-[#cce5ff] text-[#006398];
+}
+
+.themeError .value {
+  @apply text-[#ba1a1a];
+}
+.themeError .iconBox {
+  @apply bg-[#ffdad6] text-[#ba1a1a];
+}
+
+.themeNeutral .value {
+  @apply text-[#0b1c30];
+}
+.themeNeutral .iconBox {
+  @apply bg-[#e5eeff] text-[#00685f];
+}

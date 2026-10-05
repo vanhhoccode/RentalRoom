@@ -1,0 +1,41 @@
+@reference "../../index.css";
+
+.sidebar {
+  @apply fixed left-0 top-0 h-full w-64 bg-[#ffffff] z-50 flex flex-col justify-between shadow-sm border-r border-[#e5eeff];
+}
+
+/* Phần Logo */
+.logoSection {
+  @apply h-16 flex items-center px-6 gap-2 border-b border-[#eff4ff];
+}
+.logoImg {
+  @apply h-8 w-auto object-contain;
+}
+.brandName {
+  @apply font-['Plus_Jakarta_Sans'] text-[18px] font-bold text-[#00685f] tracking-tight;
+}
+.roleBadge {
+  @apply font-['Plus_Jakarta_Sans'] text-[11px] bg-[#dce9ff] text-[#00685f] px-2 py-0.5 rounded-full font-semibold ml-auto;
+}
+
+/* Phần Menu */
+.nav {
+  @apply flex flex-col gap-1 px-3 mt-4;
+}
+.navItem {
+  @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-[#3d4947] hover:bg-[#eff4ff] hover:text-[#0b1c30] transition-colors font-['Plus_Jakarta_Sans'] font-semibold text-[14px] cursor-pointer;
+}
+.navItemActive {
+  @apply bg-[#00685f] text-white hover:bg-[#008378] hover:text-white shadow-sm;
+}
+.countBadge {
+  @apply bg-[#dce9ff] text-[#00685f] text-[11px] px-2 py-0.5 rounded-full ml-auto;
+}
+
+/* Phần Đăng xuất */
+.bottomSection {
+  @apply p-3 mb-2 border-t border-[#eff4ff];
+}
+.logoutBtn {
+  @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-[#ba1a1a] hover:bg-[#ffdad6] transition-colors font-['Plus_Jakarta_Sans'] font-semibold text-[14px] w-full cursor-pointer;
+}

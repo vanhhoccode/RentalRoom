@@ -1,0 +1,151 @@
+@reference "../../../index.css";
+
+.pageWrapper {
+  @apply bg-[#f8f9ff] font-['Be_Vietnam_Pro'] text-[#0b1c30] antialiased min-h-screen flex flex-col;
+}
+.mainContent {
+  @apply pl-64 flex flex-col min-h-screen w-full;
+}
+.innerContainer {
+  @apply px-6 py-6 flex flex-col gap-6 max-w-[1400px] mx-auto w-full flex-1;
+}
+
+/* Top Utilities & Breadcrumb */
+.topUtils {
+  @apply flex flex-wrap items-center justify-between gap-3;
+}
+.breadcrumb {
+  @apply flex items-center gap-2 text-[#3d4947] text-[12px] hover:text-[#00685f] transition-colors;
+}
+.actionGroup {
+  @apply flex items-center gap-2;
+}
+.btnOutline {
+  @apply flex items-center gap-1.5 px-4 py-2 bg-white text-[#0b1c30] rounded-xl shadow-sm hover:bg-[#eff4ff] transition-colors text-[14px] font-semibold border border-[#e5eeff];
+}
+.btnPrimary {
+  @apply flex items-center gap-1.5 px-4 py-2 bg-[#00685f] text-white rounded-xl shadow-sm hover:bg-[#008378] transition-colors text-[14px] font-semibold;
+}
+
+/* Header Section */
+.headerRow {
+  @apply flex flex-wrap items-end justify-between gap-4;
+}
+.titleGroup {
+  @apply flex items-center gap-4;
+}
+.pageTitle {
+  @apply font-['Plus_Jakarta_Sans'] text-[32px] font-bold text-[#0b1c30] tracking-tight;
+}
+.countBadge {
+  @apply bg-[#dce9ff] text-[#00685f] px-4 py-1.5 rounded-full font-semibold text-[14px];
+}
+.pageDesc {
+  @apply text-[14px] text-[#3d4947] max-w-xl;
+}
+
+/* KPI Grid */
+.kpiGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+.kpiCard {
+  @apply bg-white p-4 rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow border border-[#e5eeff];
+}
+.kpiHeader {
+  @apply flex items-start justify-between;
+}
+.kpiIconWrapper {
+  @apply w-10 h-10 rounded-xl flex items-center justify-center;
+}
+.kpiBadge {
+  @apply px-2 py-1 rounded-full font-medium text-[11px] flex items-center gap-1;
+}
+.kpiLabel {
+  @apply text-[12px] text-[#3d4947] mt-4;
+}
+.kpiValue {
+  @apply font-['Plus_Jakarta_Sans'] text-[32px] font-bold text-[#0b1c30] mt-1 leading-none flex items-baseline gap-1;
+}
+.kpiSub {
+  @apply text-[14px] font-normal text-[#3d4947];
+}
+
+/* Colors for KPIs */
+.iconTotal {
+  @apply bg-[#eff4ff] text-[#00685f];
+}
+.badgeTotal {
+  @apply bg-[#dce9ff] text-[#00685f];
+}
+.iconAvailable {
+  @apply bg-[#e5fcf1] text-[#006947];
+}
+.badgeAvailable {
+  @apply bg-[#e5fcf1] text-[#006947];
+}
+.iconRented {
+  @apply bg-[#eff4ff] text-[#006398];
+}
+.badgeRented {
+  @apply bg-[#eff4ff] text-[#006398];
+}
+.iconPending {
+  @apply bg-[#ffdad6]/40 text-[#ba1a1a];
+}
+.badgePending {
+  @apply bg-[#ffdad6]/40 text-[#ba1a1a];
+}
+
+/* Filter Bar */
+.filterBar {
+  @apply bg-white p-4 rounded-2xl shadow-sm flex flex-col lg:flex-row items-center justify-between gap-4 border border-[#e5eeff];
+}
+.searchBox {
+  @apply relative w-full lg:w-96;
+}
+.searchInput {
+  @apply w-full pl-10 pr-4 py-2.5 bg-[#eff4ff] text-[#0b1c30] placeholder-[#6d7a77] rounded-xl text-[14px] outline-none focus:bg-white focus:ring-2 focus:ring-[#00685f] shadow-inner transition-all;
+}
+.filterTabs {
+  @apply flex items-center gap-1 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0;
+}
+.tabBtn {
+  @apply px-4 py-1.5 rounded-full text-[14px] font-semibold whitespace-nowrap transition-colors;
+}
+.tabActive {
+  @apply bg-[#00685f] text-white shadow-sm;
+}
+.tabInactive {
+  @apply bg-[#eff4ff] hover:bg-[#dce9ff] text-[#3d4947];
+}
+
+/* List Area & Pagination */
+.listContainer {
+  @apply flex flex-col gap-3;
+}
+.pagination {
+  @apply px-6 py-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl shadow-sm border border-[#e5eeff] mt-2;
+}
+.pageInfo {
+  @apply text-[13px] text-[#3d4947];
+}
+.pageControls {
+  @apply flex items-center gap-1;
+}
+.pageBtn {
+  @apply w-9 h-9 rounded-xl flex items-center justify-center text-[14px] font-semibold transition-colors;
+}
+.pageBtnActive {
+  @apply bg-[#00685f] text-white shadow-sm;
+}
+.pageBtnInactive {
+  @apply hover:bg-[#eff4ff] text-[#3d4947];
+}
+.pageBtnDisabled {
+  @apply text-[#bcc9c6] cursor-not-allowed;
+}
+
+/* Support Banner */
+.supportBanner {
+  @apply p-4 rounded-2xl bg-[#eff4ff] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm border border-[#dce9ff];
+}

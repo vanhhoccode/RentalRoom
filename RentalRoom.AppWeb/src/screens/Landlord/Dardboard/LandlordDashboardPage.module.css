@@ -1,0 +1,121 @@
+@reference "../../../index.css";
+
+.pageWrapper {
+  @apply bg-[#f8f9ff] font-['Be_Vietnam_Pro'] text-[#0b1c30] antialiased min-h-screen flex flex-col;
+}
+
+.mainContainer {
+  @apply px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6 max-w-[1400px] mx-auto w-full;
+}
+
+/* --- Welcome Section --- */
+.welcomeCard {
+  @apply flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-[#e5eeff];
+}
+.welcomeProfile {
+  @apply flex items-center gap-4;
+}
+.avatarContainer {
+  @apply relative;
+}
+.avatarImg {
+  @apply w-16 h-16 rounded-full object-cover shadow-sm ring-4 ring-[#eff4ff];
+}
+.avatarBadge {
+  @apply absolute bottom-0 right-0 w-4 h-4 bg-[#00855b] rounded-full ring-2 ring-white flex items-center justify-center;
+}
+.welcomeText {
+  @apply flex flex-col;
+}
+.welcomeTitle {
+  @apply font-['Plus_Jakarta_Sans'] text-[22px] font-bold text-[#0b1c30];
+}
+.verifiedTag {
+  @apply inline-flex items-center gap-1 bg-[#dce9ff] text-[#00685f] px-2 py-1 rounded-full font-semibold text-[11px];
+}
+.welcomeDesc {
+  @apply text-[14px] text-[#3d4947] mt-1;
+}
+
+/* --- KPI Grid --- */
+.kpiGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+/* --- Process Flow --- */
+.processBox {
+  @apply bg-[#eff4ff] p-6 rounded-2xl shadow-sm flex flex-col gap-4 border border-[#dce9ff];
+}
+.processGrid {
+  @apply grid grid-cols-1 md:grid-cols-4 gap-3 items-center relative;
+}
+.processStep {
+  @apply bg-white p-4 rounded-xl flex items-center gap-3 shadow-sm border border-[#e5eeff];
+}
+.stepNumber {
+  @apply w-8 h-8 rounded-xl flex items-center justify-center font-['Plus_Jakarta_Sans'] font-bold text-[14px] shrink-0;
+}
+.stepText {
+  @apply flex flex-col min-w-0;
+}
+.stepTitle {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold text-[14px] text-[#0b1c30];
+}
+.stepDesc {
+  @apply text-[12px] text-[#3d4947] truncate;
+}
+
+/* --- Main Grid --- */
+.mainGrid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-6 items-start;
+}
+
+/* Cột danh sách tin (8 Cols) */
+.listingsCol {
+  @apply lg:col-span-8 flex flex-col gap-4;
+}
+.sectionHeader {
+  @apply flex items-center justify-between mb-2;
+}
+.sectionTitle {
+  @apply font-['Plus_Jakarta_Sans'] text-[20px] font-bold text-[#0b1c30];
+}
+.countBadge {
+  @apply font-semibold text-[11px] bg-[#dce9ff] text-[#00685f] px-2.5 py-1 rounded-full;
+}
+.viewAllLink {
+  @apply font-semibold text-[13px] text-[#00685f] hover:text-[#008378] flex items-center gap-1 transition-colors cursor-pointer;
+}
+.listingList {
+  @apply flex flex-col gap-3;
+}
+
+/* Cột Tips & Stats (4 Cols) */
+.sideCol {
+  @apply lg:col-span-4 flex flex-col gap-4;
+}
+
+/* Tips Card */
+.tipsCard {
+  @apply bg-gradient-to-br from-white to-[#eff4ff] p-6 rounded-2xl shadow-sm flex flex-col gap-4 relative overflow-hidden border border-[#e5eeff];
+}
+.tipsDecoration {
+  @apply absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#00685f]/5 pointer-events-none;
+}
+.tipsList {
+  @apply bg-white p-4 rounded-xl shadow-sm flex flex-col gap-3 border border-[#e5eeff];
+}
+
+/* Stats Card */
+.statsCard {
+  @apply bg-white p-6 rounded-2xl shadow-sm flex flex-col gap-3 border border-[#e5eeff];
+}
+.statsTitle {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold text-[16px] text-[#0b1c30];
+}
+.progressBar {
+  @apply w-full bg-[#dce9ff] h-3 rounded-full overflow-hidden flex mt-2;
+}
+.statsLabels {
+  @apply grid grid-cols-3 gap-2 pt-3 text-center border-t border-[#eff4ff] mt-2;
+}

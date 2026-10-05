@@ -1,0 +1,107 @@
+@reference "../../index.css";
+
+.pageContainer {
+  @apply w-full pt-28 pb-16 bg-[#f8f9ff] min-h-screen font-sans antialiased text-[#0b1c30];
+}
+
+.contentWrapper {
+  @apply max-w-[1280px] mx-auto px-4 lg:px-6;
+}
+
+.layoutGrid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-8 items-start;
+}
+
+.mainFormColumn {
+  @apply lg:col-span-8 flex flex-col gap-8;
+}
+
+.previewColumn {
+  @apply lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-24;
+}
+
+/* Card UI */
+.sectionCard {
+  @apply bg-white p-6 sm:p-8 rounded-2xl shadow-sm flex flex-col gap-6;
+}
+
+.sectionHeader {
+  @apply flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3;
+}
+
+.sectionTitleGroup {
+  @apply flex items-center gap-2;
+}
+
+.stepNumber {
+  @apply flex items-center justify-center w-6 h-6 rounded-md bg-[#00685f]/10 text-[#00685f] text-[11px] font-bold;
+}
+
+.sectionTitle {
+  @apply text-[22px] font-bold text-[#0b1c30];
+}
+
+.sectionDesc {
+  @apply text-[14px] text-[#3d4947] mt-1;
+}
+
+/* Inputs & Labels */
+.formGroup {
+  @apply flex flex-col gap-2;
+}
+
+.label {
+  @apply text-[16px] font-semibold text-[#0b1c30];
+}
+
+.labelSmall {
+  @apply text-[14px] font-semibold text-[#3d4947];
+}
+
+.required {
+  @apply text-[#ba1a1a];
+}
+
+.inputField {
+  @apply w-full bg-[#eff4ff] rounded-xl px-4 py-2.5 text-[14px] text-[#0b1c30] placeholder:text-[#6d7a77] focus:bg-white focus:ring-2 focus:ring-[#00685f] outline-none transition-all;
+}
+
+.selectField {
+  @apply w-full bg-[#eff4ff] rounded-xl px-4 py-2.5 text-[14px] text-[#0b1c30] outline-none cursor-pointer;
+}
+
+/* Radio Group (Category) */
+.radioGrid {
+  @apply grid grid-cols-2 sm:grid-cols-4 gap-3;
+}
+
+.radioCard {
+  @apply relative flex flex-col p-4 bg-[#eff4ff] rounded-xl cursor-pointer hover:bg-[#e5eeff] transition-all text-center items-center gap-2 border-2 border-transparent has-[:checked]:border-[#00685f] has-[:checked]:bg-[#00685f]/5;
+}
+
+/* Checkbox (Amenities) */
+.checkboxGrid {
+  @apply grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1;
+}
+
+.checkboxItem {
+  @apply flex items-center gap-2 p-2 bg-[#eff4ff] rounded-xl cursor-pointer hover:bg-[#e5eeff] transition-all;
+}
+
+.checkboxInput {
+  @apply w-4 h-4 rounded text-[#00685f] accent-[#00685f];
+}
+
+/* Media Upload */
+.uploadZone {
+  @apply relative flex flex-col items-center justify-center p-8 bg-[#eff4ff]/60 hover:bg-[#eff4ff] rounded-2xl cursor-pointer transition-all text-center border-2 border-dashed border-[#bcc9c6] hover:border-[#00685f];
+}
+
+/* Submit Bar */
+.bottomBar {
+  @apply sticky bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl shadow-[0_-4px_20px_rgba(0,0,0,0.06)] py-4;
+}
+
+.submitBtn {
+  @apply flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-[14px] font-semibold text-white bg-[#00685f] hover:bg-[#008378] shadow-md transition-all w-full sm:w-auto;
+}

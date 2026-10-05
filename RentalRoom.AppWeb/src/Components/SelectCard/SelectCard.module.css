@@ -1,0 +1,56 @@
+@reference "../../../index.css";
+
+.labelBase {
+  @apply flex flex-col items-center gap-1.5 p-3 rounded-xl cursor-pointer transition-all text-center border-2 border-transparent;
+}
+
+/* Biến thể Radio (Dùng cho Loại hình BĐS - Icon to nằm trên, text nằm dưới) */
+.variantVertical {
+  @apply flex-col justify-center py-4;
+}
+
+/* Biến thể Checkbox (Dùng cho Tiện ích - Layout ngang) */
+.variantHorizontal {
+  @apply flex-row items-center justify-start py-3 px-4;
+}
+
+/* Trạng thái chưa chọn */
+.stateInactive {
+  @apply bg-[#eff4ff] hover:bg-[#dce9ff] text-[#3d4947];
+}
+
+/* Trạng thái đã chọn (Active) */
+.stateActive {
+  @apply bg-[#00685f] text-white shadow-md ring-2 ring-[#00685f] ring-offset-1;
+}
+
+/* Trạng thái Active cho Checkbox (Tiện ích) thường có nền nhạt chữ đậm */
+.stateActiveLight {
+  @apply bg-[#89f5e7]/20 text-[#00685f] ring-2 ring-[#00685f] border-transparent shadow-sm;
+}
+
+/* Icon & Text */
+.icon {
+  @apply shrink-0;
+}
+.iconVertical {
+  @apply text-[28px];
+}
+.iconHorizontal {
+  @apply text-[20px];
+}
+
+.text {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold leading-snug;
+}
+.textVertical {
+  @apply text-[14px];
+}
+.textHorizontal {
+  @apply text-[14px];
+}
+
+/* Nút checkbox tròn / vuông hiển thị bên trong (tùy chọn) */
+.customCheckbox {
+  @apply w-4 h-4 rounded text-[#00685f] accent-[#00685f] shrink-0;
+}

@@ -1,0 +1,86 @@
+@reference "../../index.css";
+
+.rowBase {
+  @apply flex flex-col sm:flex-row gap-4 p-4 bg-[#ffffff] rounded-2xl shadow-sm hover:shadow-md transition-all items-start sm:items-center justify-between border border-[#e5eeff];
+}
+
+.rowRented {
+  @apply opacity-80 hover:opacity-100;
+}
+
+.mainInfo {
+  @apply flex gap-4 min-w-0 flex-1 w-full;
+}
+
+/* Thumbnail */
+.thumbWrapper {
+  @apply relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shrink-0 bg-[#eff4ff];
+}
+
+.thumbImg {
+  @apply w-full h-full object-cover transition-transform duration-500;
+}
+
+.thumbGrayscale {
+  @apply grayscale-[40%];
+}
+
+.areaTag {
+  @apply absolute top-1.5 left-1.5 font-['Plus_Jakarta_Sans'] font-semibold text-[10px] bg-[#0b1c30]/80 backdrop-blur-sm text-white px-1.5 py-0.5 rounded shadow-sm;
+}
+
+/* Detail Text */
+.detailCol {
+  @apply flex flex-col min-w-0 justify-center gap-1 w-full;
+}
+
+.metaRow {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+.dateText {
+  @apply font-['Be_Vietnam_Pro'] text-[12px] text-[#3d4947] flex items-center gap-1;
+}
+
+.title {
+  @apply font-['Plus_Jakarta_Sans'] text-[16px] sm:text-[18px] font-bold text-[#0b1c30] truncate hover:text-[#00685f] transition-colors cursor-pointer;
+}
+
+.priceRow {
+  @apply flex flex-wrap items-center gap-3 sm:gap-4 mt-0.5;
+}
+
+.price {
+  @apply font-['Plus_Jakarta_Sans'] text-[18px] sm:text-[20px] font-bold;
+}
+.priceActive {
+  @apply text-[#ba1a1a];
+}
+.priceInactive {
+  @apply text-[#6d7a77];
+}
+
+.location {
+  @apply font-['Be_Vietnam_Pro'] text-[13px] text-[#3d4947] flex items-center gap-1 truncate;
+}
+
+/* Actions */
+.actionGroup {
+  @apply flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 w-full sm:w-auto shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#eff4ff];
+}
+
+.btnToggleStatus {
+  @apply px-3 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#00685f] font-['Plus_Jakarta_Sans'] font-semibold text-[12px] transition-colors flex items-center gap-1;
+}
+
+.iconGroup {
+  @apply flex items-center gap-1;
+}
+
+.btnIcon {
+  @apply p-1.5 text-[#6d7a77] hover:text-[#0b1c30] hover:bg-[#eff4ff] rounded-lg transition-colors cursor-pointer;
+}
+
+.btnIconDanger {
+  @apply p-1.5 text-[#93000a]/70 hover:text-[#ba1a1a] hover:bg-[#ffdad6] rounded-lg transition-colors cursor-pointer;
+}

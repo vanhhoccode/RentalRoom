@@ -1,0 +1,54 @@
+@reference "../../../index.css";
+
+.wrapper {
+  @apply flex flex-col gap-1.5 w-full;
+}
+
+.labelRow {
+  @apply flex items-center justify-between;
+}
+
+.label {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold text-[14px] text-[#0b1c30];
+}
+
+.required {
+  @apply text-[#ba1a1a] ml-1;
+}
+
+.helperTextTop {
+  @apply font-['Be_Vietnam_Pro'] text-[12px] text-[#6d7a77] font-normal;
+}
+
+.inputContainer {
+  @apply relative flex items-center w-full;
+}
+
+/* Các biến thể input */
+.inputBase {
+  @apply w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] text-[#0b1c30] font-['Be_Vietnam_Pro'] text-[14px] outline-none transition-all focus:bg-[#ffffff] focus:ring-2 focus:ring-[#00685f];
+}
+
+.inputError {
+  @apply ring-2 ring-[#ffdad6] bg-[#fff8f7] focus:ring-[#ba1a1a];
+}
+
+/* Khoảng trống cho icon/suffix */
+.hasLeftIcon {
+  @apply pl-10;
+}
+.hasRightText {
+  @apply pr-16;
+}
+
+.leftIcon {
+  @apply absolute left-3 text-[#00685f] text-[20px] pointer-events-none;
+}
+
+.rightText {
+  @apply absolute right-3 font-['Be_Vietnam_Pro'] text-[12px] text-[#6d7a77] pointer-events-none;
+}
+
+.errorMsg {
+  @apply font-['Be_Vietnam_Pro'] text-[12px] text-[#ba1a1a] mt-1 flex items-center gap-1;
+}

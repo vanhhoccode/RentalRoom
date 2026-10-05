@@ -1,0 +1,81 @@
+@reference "../../index.css";
+
+.pageContainer {
+  @apply bg-[#f8f9ff] font-sans antialiased min-h-screen pt-20 text-[#0b1c30];
+}
+
+.breadcrumbBar {
+  @apply w-full bg-white shadow-sm py-3;
+}
+
+.contentWrapper {
+  @apply max-w-[1280px] mx-auto px-4 lg:px-6 w-full;
+}
+
+/* Gallery Layout */
+.galleryWrapper {
+  @apply relative mb-12 rounded-2xl overflow-hidden shadow-md;
+}
+
+.galleryGrid {
+  @apply grid grid-cols-1 md:grid-cols-4 gap-2 h-[340px] sm:h-[440px] md:h-[500px];
+}
+
+.mainImageCol {
+  @apply md:col-span-2 relative group overflow-hidden cursor-pointer h-full;
+}
+
+.subImagesGrid {
+  @apply hidden md:grid md:col-span-2 grid-cols-2 gap-2 h-full;
+}
+
+.imageItem {
+  @apply relative group overflow-hidden cursor-pointer h-full;
+}
+
+.image {
+  @apply w-full h-full object-cover group-hover:scale-105 transition-transform duration-500;
+}
+
+/* Main Layout Grid */
+.mainLayoutGrid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-8;
+}
+
+.leftColumn {
+  @apply lg:col-span-8 flex flex-col gap-8;
+}
+
+.rightColumn {
+  @apply lg:col-span-4;
+}
+
+.stickySidebar {
+  @apply sticky top-24 space-y-4;
+}
+
+/* Card Blocks */
+.infoCard {
+  @apply bg-white p-6 lg:p-8 rounded-2xl shadow-sm;
+}
+
+.cardHeader {
+  @apply flex items-center gap-2 mb-4;
+}
+
+.iconBox {
+  @apply p-2 rounded-lg flex items-center justify-center;
+}
+
+/* Modals */
+.modalOverlay {
+  @apply fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4;
+}
+
+.modalContent {
+  @apply bg-white rounded-2xl max-w-lg w-full p-6 lg:p-8 shadow-2xl relative space-y-4 animate-in fade-in zoom-in duration-200;
+}
+
+.inputField {
+  @apply w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] text-[#0b1c30] border-none outline-none focus:ring-2 focus:ring-[#00685f] text-[14px];
+}

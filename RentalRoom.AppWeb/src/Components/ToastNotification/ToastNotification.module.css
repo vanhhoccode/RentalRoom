@@ -1,0 +1,59 @@
+@import "tailwindcss";
+/* ToastNotification.module.css */
+.toastWrapper {
+  @apply fixed bottom-6 right-6 z-50 font-sans antialiased pointer-events-auto;
+}
+
+.toastContainer {
+  @apply flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl transition-all transform duration-300;
+}
+
+/* Các biến thể màu sắc (Types) */
+.typeSuccess {
+  @apply bg-[#213145] text-white;
+}
+
+.typeError {
+  @apply bg-[#93000a] text-white;
+}
+
+.typeInfo {
+  @apply bg-[#213145] text-white;
+}
+
+/* Màu icon theo type */
+.iconSuccess {
+  @apply text-[#6ffbbe];
+}
+
+.iconError {
+  @apply text-[#ffdad6];
+}
+
+.iconInfo {
+  @apply text-[#93ccff];
+}
+
+.toastIcon {
+  @apply text-[24px] flex-shrink-0;
+}
+
+.contentCol {
+  @apply flex flex-col pr-2;
+}
+
+.toastTitle {
+  @apply text-sm font-bold tracking-tight;
+}
+
+.toastMessage {
+  @apply text-xs text-[#d3e4fe] mt-0.5;
+}
+
+.closeBtn {
+  @apply text-white/70 hover:text-white p-1 rounded-full transition-colors ml-1 cursor-pointer;
+}
+
+.closeIcon {
+  @apply text-[18px];
+}

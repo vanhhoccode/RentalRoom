@@ -1,0 +1,61 @@
+@import "tailwindcss";
+/* StatusBadge.module.css */
+.badgeBase {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full shadow-sm font-sans antialiased;
+}
+
+/* Biến thể: Available (Còn trống) */
+.badgeAvailable {
+  @apply bg-white/90 backdrop-blur-md;
+}
+
+.pingDotWrapper {
+  @apply relative flex h-2.5 w-2.5;
+}
+
+.pingDot {
+  @apply animate-ping absolute inline-flex h-full w-full rounded-full bg-[#006947] opacity-75;
+}
+
+.staticDotAvailable {
+  @apply relative inline-flex rounded-full h-2.5 w-2.5 bg-[#006947];
+}
+
+.textAvailable {
+  @apply text-[11px] font-bold text-[#006947];
+}
+
+/* Biến thể: Rented (Đã cho thuê) */
+.badgeRented {
+  @apply bg-[#cbdbf5]/95 backdrop-blur-md;
+}
+
+.staticDotRented {
+  @apply inline-block w-2.5 h-2.5 rounded-full bg-[#6d7a77];
+}
+
+.textRented {
+  @apply text-[11px] font-bold text-[#3d4947];
+}
+
+/* Biến thể: Pending (Chờ duyệt) */
+.badgePending {
+  @apply px-2.5 bg-[#dce9ff] text-[#00685f];
+}
+
+.textPending {
+  @apply text-[11px] font-semibold;
+}
+
+/* Biến thể: Expired (Hết hạn / Tạm ẩn) */
+.badgeExpired {
+  @apply px-2.5 bg-[#eff4ff] text-[#6d7a77];
+}
+
+.textExpired {
+  @apply text-[11px] font-medium;
+}
+
+.badgeIcon {
+  @apply text-[14px];
+}

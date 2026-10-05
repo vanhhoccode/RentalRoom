@@ -1,0 +1,18 @@
+﻿namespace RentalRoom.Api.Common.Exceptions;
+
+public class AppException : Exception
+{
+    public string ErrorCode { get; }
+
+    public int StatusCode { get; }
+
+    public AppException(
+        string errorCode,
+        string message,
+        int statusCode = 400)
+        : base(message)
+    {
+        ErrorCode = errorCode;
+        StatusCode = statusCode;
+    }
+}

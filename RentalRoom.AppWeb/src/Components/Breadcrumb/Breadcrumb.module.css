@@ -1,0 +1,25 @@
+@reference "../../../index.css";
+
+.breadcrumbNav {
+  @apply flex items-center flex-wrap gap-1 font-['Be_Vietnam_Pro'] text-[14px];
+}
+
+.itemLink {
+  @apply flex items-center gap-1 text-[#3d4947] hover:text-[#00685f] transition-colors cursor-pointer;
+}
+
+.itemActive {
+  @apply font-semibold text-[#00685f];
+}
+
+.itemActiveBadge {
+  @apply font-semibold text-[#0b1c30] bg-[#e5eeff] px-2 py-0.5 rounded text-[12px] tracking-wide;
+}
+
+.separator {
+  @apply text-[#bcc9c6] text-[12px] px-1;
+}
+
+.icon {
+  @apply text-[16px];
+}

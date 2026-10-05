@@ -1,0 +1,57 @@
+@reference "../../../index.css";
+
+.galleryWrapper {
+  @apply flex flex-col gap-2;
+}
+
+/* Ảnh chính */
+.mainImageContainer {
+  @apply relative w-full h-80 sm:h-96 md:h-[420px] rounded-xl overflow-hidden bg-[#eff4ff] group;
+}
+
+.mainImage {
+  @apply w-full h-full object-cover transition-transform duration-500 group-hover:scale-105;
+}
+
+.gradientOverlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none;
+}
+
+.photoCounter {
+  @apply absolute bottom-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0b1c30]/85 backdrop-blur-md text-white font-['Plus_Jakarta_Sans'] font-semibold text-[12px] shadow-sm;
+}
+
+.btnViewAll {
+  @apply absolute bottom-4 right-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#ffffff]/90 hover:bg-[#ffffff] backdrop-blur-md text-[#0b1c30] font-['Plus_Jakarta_Sans'] font-semibold text-[12px] shadow transition-colors cursor-pointer;
+}
+
+/* Danh sách Thumbnail */
+.thumbGrid {
+  @apply grid grid-cols-4 sm:grid-cols-5 gap-2;
+}
+
+.thumbItem {
+  @apply relative h-20 rounded-lg overflow-hidden bg-[#eff4ff] transition-all cursor-pointer;
+}
+
+.thumbItemActive {
+  @apply ring-2 ring-[#00685f] opacity-100;
+}
+
+.thumbItemInactive {
+  @apply ring-0 opacity-70 hover:opacity-100;
+}
+
+.thumbImg {
+  @apply w-full h-full object-cover;
+}
+
+/* Nút xóa ảnh (Dùng cho Edit Mode) */
+.btnDelete {
+  @apply absolute top-1 right-1 w-7 h-7 rounded-full bg-[#ffffff]/90 text-[#ba1a1a] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow hover:bg-[#ba1a1a] hover:text-white cursor-pointer;
+}
+
+/* Tag ảnh bìa */
+.coverTag {
+  @apply absolute top-1 left-1 px-2 py-0.5 rounded bg-[#00685f] text-white font-['Plus_Jakarta_Sans'] font-semibold text-[10px] shadow;
+}

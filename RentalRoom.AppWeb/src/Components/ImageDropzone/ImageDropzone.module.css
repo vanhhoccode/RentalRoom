@@ -1,0 +1,17 @@
+@reference "../../../index.css";
+
+.dropzone {
+  @apply p-6 rounded-xl border-2 border-dashed border-[#bcc9c6] hover:border-[#00685f] bg-[#eff4ff]/50 hover:bg-[#eff4ff] flex flex-col items-center justify-center gap-2 text-center cursor-pointer transition-all;
+}
+
+.iconWrapper {
+  @apply w-12 h-12 rounded-full bg-[#89f5e7]/30 text-[#00685f] flex items-center justify-center mb-1;
+}
+
+.title {
+  @apply font-['Plus_Jakarta_Sans'] font-semibold text-[14px] text-[#0b1c30];
+}
+
+.subtitle {
+  @apply font-['Be_Vietnam_Pro'] text-[12px] text-[#6d7a77];
+}

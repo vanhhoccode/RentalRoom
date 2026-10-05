@@ -1,0 +1,62 @@
+@import "tailwindcss";
+/* Biến thể trang chủ (Home) */
+.homeFilterContainer {
+  @apply bg-white rounded-2xl shadow-xl p-4 lg:p-6 max-w-5xl mx-auto font-sans antialiased text-[#0b1c30];
+}
+
+.filterGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 items-center;
+}
+
+.filterBox {
+  @apply flex flex-col bg-[#eff4ff]/60 hover:bg-[#eff4ff] rounded-xl px-3.5 py-2 transition-all;
+}
+
+.filterLabel {
+  @apply text-[11px] font-medium text-[#6d7a77] flex items-center gap-1 mb-0.5;
+}
+
+.filterSelect {
+  @apply bg-transparent text-base font-semibold text-[#0b1c30] focus:outline-none cursor-pointer;
+}
+
+.bottomRow {
+  @apply mt-4 pt-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4;
+}
+
+.amenitiesGroup {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+.amenityChip {
+  @apply flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all shadow-sm;
+}
+
+.chipActive {
+  @apply bg-[#00685f] text-white;
+}
+
+.chipInactive {
+  @apply bg-[#eff4ff] text-[#3d4947] hover:bg-[#dce9ff];
+}
+
+.submitBtn {
+  @apply flex items-center justify-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white px-6 py-3 rounded-xl text-sm font-semibold shadow-md transition-all flex-shrink-0;
+}
+
+/* Biến thể quản lý (Management) */
+.managementFilterContainer {
+  @apply bg-white p-3 rounded-2xl shadow-sm flex flex-col md:flex-row gap-3 items-center font-sans antialiased text-[#0b1c30];
+}
+
+.dropdownBox {
+  @apply w-full md:w-auto flex items-center bg-[#eff4ff] rounded-xl px-4 py-2 gap-2;
+}
+
+.dropdownIcon {
+  @apply text-[#6d7a77] text-[18px];
+}
+
+.dropdownSelect {
+  @apply bg-transparent border-none outline-none text-xs font-semibold text-[#0b1c30] cursor-pointer py-1 w-full;
+}

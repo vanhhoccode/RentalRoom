@@ -1,0 +1,45 @@
+@reference "../../index.css";
+
+/* Base Button Styles */
+.btnBase {
+  @apply inline-flex items-center justify-center gap-1.5 rounded-xl font-['Plus_Jakarta_Sans'] font-semibold transition-all duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed;
+}
+
+/* --- Sizes --- */
+.sizeSm {
+  @apply px-3 py-1.5 text-[12px];
+}
+.sizeMd {
+  @apply px-4 py-2.5 text-[14px];
+}
+.sizeLg {
+  @apply px-6 py-3 text-[16px] shadow-sm hover:shadow-md;
+}
+.sizeIcon {
+  @apply p-2 rounded-lg; /* Dành cho nút chỉ có Icon */
+}
+
+/* --- Variants --- */
+.variantPrimary {
+  @apply bg-[#00685f] hover:bg-[#008378] text-white active:scale-[0.98];
+}
+
+.variantSecondary {
+  @apply bg-[#e5eeff] hover:bg-[#dce9ff] text-[#0b1c30] shadow-sm;
+}
+
+.variantDanger {
+  @apply bg-[#ffdad6] hover:bg-[#ba1a1a] hover:text-white text-[#93000a] shadow-sm;
+}
+
+.variantGhost {
+  @apply bg-transparent hover:bg-[#eff4ff] text-[#3d4947] hover:text-[#0b1c30];
+}
+
+/* --- Elements --- */
+.icon {
+  @apply text-[18px] shrink-0;
+}
+.spinner {
+  @apply text-[18px] animate-spin shrink-0;
+}
