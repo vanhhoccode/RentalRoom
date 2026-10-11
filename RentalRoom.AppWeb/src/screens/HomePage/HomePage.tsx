@@ -8,25 +8,13 @@ import { getFavorites, addFavorite, removeFavorite } from '../../Services/favori
 import { RoomDto, RoomListResponseDto, RoomSearchFilter, defaultRoomSearchFilter } from '../../Dtos/Room/RoomDto';
 import styles from './HomePage.module.css';
 
+// Import Dữ liệu Tỉnh/Thành thực tế
+import hanoiData from '../../Utils/hanoi-legacy-urban.json';
+
 export interface CategoryResponse {
   id: number;
   name: string;
 }
-
-const MOCK_DISTRICTS = [
-  "Hai Bà Trưng", "Cầu Giấy", "Đống Đa", "Thanh Xuân",
-  "Nam Từ Liêm", "Tây Hồ", "Hà Đông"
-];
-
-const MOCK_WARDS: Record<string, string[]> = {
-  "Hai Bà Trưng": ["Bách Khoa", "Đồng Tâm"],
-  "Cầu Giấy": ["Dịch Vọng", "Yên Hòa", "Mai Dịch"],
-  "Đống Đa": ["Phương Mai", "Láng Hạ", "Quang Trung"],
-  "Thanh Xuân": ["Nhân Chính", "Thanh Xuân Bắc"],
-  "Nam Từ Liêm": ["Mỹ Đình 2", "Mễ Trì"],
-  "Tây Hồ": ["Xuân La", "Bưởi"],
-  "Hà Đông": ["Yết Kiêu", "Vạn Phúc"]
-};
 
 const PRICE_RANGES = [
   { label: "Tất cả mức giá", min: undefined, max: undefined },
@@ -114,15 +102,12 @@ export default function HomePage() {
   }, []);
 
   const handleSearch = async () => {
-    // Khi search mới → reset về trang 1
     await loadRooms(1, filter);
   };
 
-  // Hàm chuyển trang — gọi khi bấm nút số trang / trang trước / trang sau
   const goToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
     loadRooms(page, filter);
-    // Cuộn lên đầu danh sách
     window.scrollTo({ top: 500, behavior: 'smooth' });
   };
 
@@ -130,12 +115,13 @@ export default function HomePage() {
     setFilter(prev => ({ ...prev, [field]: value }));
   };
 
+  // Logic Cascading: Khi chọn Quận/Huyện mới thì phải Reset Phường/Xã
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newDistrict = e.target.value;
     setFilter(prev => ({
       ...prev,
       district: newDistrict || undefined,
-      ward: undefined
+      ward: undefined // Reset Phường khi Quận thay đổi
     }));
   };
 
@@ -152,11 +138,13 @@ export default function HomePage() {
     setFilter(prev => ({ ...prev, minPrice: range.min, maxPrice: range.max }));
   };
 
-  const availableWards = filter.district ? MOCK_WARDS[filter.district] || [] : [];
+  // Query Phường/Xã dựa vào Quận/Huyện đã chọn từ JSON thực tế
+  const availableWards = filter.district
+    ? hanoiData.districts.find(d => d.name === filter.district)?.wards || []
+    : [];
 
-  // Logic gọi API khi bấm nút Yêu thích trên Card
   const handleToggleFavorite = async (roomId: number) => {
-    const token = localStorage.getItem('accessToken'); // Sửa ở đây
+    const token = localStorage.getItem('accessToken');
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
 
@@ -189,7 +177,6 @@ export default function HomePage() {
     }
   };
 
-  // Xử lý tìm kiếm từ Header (sync keyword xuống filter + search ngay)
   const handleHeaderSearch = (kw: string) => {
     const newFilter = { ...filter, keyword: kw || undefined };
     setFilter(newFilter);
@@ -201,39 +188,19 @@ export default function HomePage() {
       <Header onSearch={handleHeaderSearch} searchValue={filter.keyword || ''} />
 
       <main className="w-full flex flex-col">
-        {/* Ticker Trạng thái Realtime */}
-        <div className={styles.tickerBar}>
-          <div className="max-w-[1280px] mx-auto px-4 lg:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-[12px]">
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-full shadow-sm text-[#00685f]">
-                <span className="inline-block w-2 h-2 rounded-full bg-[#006947] animate-ping"></span>
-                <span className="font-semibold text-[#0b1c30]">1,420</span> phòng đang còn trống hôm nay
-              </div>
-              <div className="hidden sm:flex items-center gap-1.5 text-[#3d4947]">
-                <span className="material-symbols-outlined text-[#006398] text-[16px]">schedule</span>
-                <span>Cập nhật trạng thái: <strong className="text-[#0b1c30] font-medium">Vừa xong</strong></span>
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5 text-[#006947] font-medium bg-[#00855b]/10 px-3 py-1 rounded-full">
-              <span className="material-symbols-outlined text-[16px] text-[#006947]">verified</span>
-              <span>100% tin đã xác thực</span>
-            </div>
-          </div>
-        </div>
-
         {/* HERO & BẢNG TÌM KIẾM */}
         <section className={styles.heroSection}>
           <div className="max-w-[1280px] mx-auto px-4 lg:px-6">
             <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white shadow-sm mb-3">
                 <span className="material-symbols-outlined text-[#00685f] text-[18px]">bolt</span>
-                <span className="text-[11px] text-[#00685f] uppercase tracking-wider font-semibold">Công nghệ Real-Time Status 2025</span>
+                <span className="text-[11px] text-[#00685f] uppercase tracking-wider font-semibold">CẬP NHẬT TRẠNG THÁI PHÒNG NHANH & CHÍNH XÁC</span>
               </div>
               <h1 className="text-[32px] lg:text-[40px] font-bold text-[#0b1c30] tracking-tight mb-2">
                 Tìm phòng trọ, căn hộ mini <span className="text-[#00685f]">nhanh & chính chủ</span>
               </h1>
               <p className="text-[16px] text-[#3d4947]">
-                Cập nhật trạng thái phòng thực tế theo thời gian thực — Không còn lo lắng về phòng ảo hay đã cho thuê.
+                Trạng thái phòng luôn được cập nhật — Dễ dàng tìm phòng còn trống, tránh tin đã cho thuê.
               </p>
             </div>
 
@@ -297,8 +264,8 @@ export default function HomePage() {
                     onChange={handleDistrictChange}
                   >
                     <option value="">Tất cả Quận/Huyện</option>
-                    {MOCK_DISTRICTS.map(d => (
-                      <option key={d} value={d}>{d}</option>
+                    {hanoiData.districts.map(d => (
+                      <option key={d.code} value={d.name}>{d.name}</option>
                     ))}
                   </select>
                 </div>
@@ -315,7 +282,7 @@ export default function HomePage() {
                   >
                     <option value="">Tất cả Phường/Xã</option>
                     {availableWards.map(w => (
-                      <option key={w} value={w}>{w}</option>
+                      <option key={w.code} value={w.name}>{w.name}</option>
                     ))}
                   </select>
                 </div>
@@ -385,12 +352,11 @@ export default function HomePage() {
                     address={`${room.addressDetail ?? ''}, ${room.ward ?? ''}, ${room.district ?? ''}`}
                     status={statusStr}
                     schoolProximity={`Khu vực ${room.district ?? ''}`}
-                    features={['Điều hòa', 'Nóng lạnh', 'Wifi']}
-                    photoCount={5}
+                    features={room.amenities || []}
+                    photoCount={room.imageCount ? Number(room.imageCount) : 0}
                     landlordName="Chủ trọ xác thực"
                     verifiedHost={true}
                     variant="search"
-                    // Truyền 2 thuộc tính quan trọng cho chức năng Yêu thích
                     isFavorite={favoriteIds.includes(Number(room.id))}
                     onToggleFavorite={() => handleToggleFavorite(Number(room.id))}
                   />
@@ -434,13 +400,10 @@ export default function HomePage() {
 
               {/* Các nút số trang */}
               {(() => {
-                // Hiển thị tối đa 5 trang xung quanh trang hiện tại
                 const pages: (number | '...')[] = [];
                 if (totalPages <= 7) {
-                  // Ít trang → hiện hết
                   for (let i = 1; i <= totalPages; i++) pages.push(i);
                 } else {
-                  // Nhiều trang → hiện 1 ... [current-1, current, current+1] ... last
                   pages.push(1);
                   if (currentPage > 3) pages.push('...');
                   for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {

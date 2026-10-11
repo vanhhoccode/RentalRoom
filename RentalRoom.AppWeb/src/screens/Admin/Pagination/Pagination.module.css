@@ -1,0 +1,69 @@
+.paginationWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: rgba(239, 244, 255, 0.4);
+  border-top: 1px solid #eaf1ff;
+}
+
+.infoText {
+  font-size: 14px;
+  color: #6d7a77;
+  font-family: "Be Vietnam Pro", sans-serif;
+}
+
+.infoText strong {
+  color: #0b1c30;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pageBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnActive {
+  background-color: #00685f;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btnInactive {
+  background-color: #ffffff;
+  color: #6d7a77;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btnInactive:hover:not(:disabled) {
+  background-color: #eff4ff;
+  color: #0b1c30;
+}
+
+.btnInactive:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.dots {
+  padding: 0 0.25rem;
+  color: #6d7a77;
+  font-size: 12px;
+}

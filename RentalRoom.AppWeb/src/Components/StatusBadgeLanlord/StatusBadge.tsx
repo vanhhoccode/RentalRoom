@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './StatusBadge.module.css';
 
-export type RoomStatus = 'Available' | 'Pending' | 'Rented' | 'Rejected';
+export type RoomStatus = 'Available' | 'Pending' | 'Rented' | 'Rejected' | 'Expired';
 
 interface StatusBadgeProps {
     status: RoomStatus;
@@ -19,7 +19,7 @@ export default function StatusBadge({ status, size = 'sm', showLabel = true }: S
                     <span className={styles.dotAvailablePing}></span>
                     <span className={styles.dotAvailableCore}></span>
                 </span>
-                {showLabel && <span>Đang cho thuê</span>}
+                {showLabel && <span>Có sẵn</span>}
             </span>
         );
     }

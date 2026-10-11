@@ -5,6 +5,8 @@ export interface MeResponse {
   username: string;
   fullName: string;
   role: string;
+  phone: string;
+  email: string;
 }
 
 const getAuthHeaders = () => {

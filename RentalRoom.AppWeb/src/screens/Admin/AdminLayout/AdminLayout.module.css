@@ -1,0 +1,22 @@
+.layoutContainer {
+  background-color: #f8f9ff; /* surface */
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-size: 14px; /* text-body-md */
+  color: #0b1c30; /* on-surface */
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.contentWrapper {
+  padding-left: 288px; /* 72 * 4px to match sidebar width */
+}
+
+.mainContent {
+  position: relative;
+  padding-top: 80px; /* 20 * 4px to clear header */
+  width: 100%;
+  padding-left: 2rem; /* px-space-xl */
+  padding-right: 2rem;
+  min-height: 100vh;
+  background-color: #f8f9ff;
+}

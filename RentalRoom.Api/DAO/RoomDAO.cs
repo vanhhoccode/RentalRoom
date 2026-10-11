@@ -3,6 +3,7 @@ using RentalRoom.Api.Entities;
 using RentalRoom.Api.Filters;
 using RentalRoom.Api.DTOs;
 using RentalRoom.Api.DTOs.Rooms;
+using System.Data;
 
 namespace RentalRoom.Api.DAO;
 
@@ -147,7 +148,27 @@ public class RoomDAO
         return categories;
     }
 
+    public async Task<int> ExpireAvailableRoomsNotUpdatedFor30DaysAsync()
+    {
+        const string sql = """
+        UPDATE dbo.Rooms
+        SET
+            Status = 'Expired',
+            UpdatedAt = SYSDATETIME(),
+            UpdatedBy = NULL
+        WHERE IsDeleted = 0
+          AND Status = 'Available'
+          AND COALESCE(UpdatedAt, CreatedAt)
+              <= DATEADD(DAY, -30, SYSDATETIME());
+        """;
 
+        await using var connection = _connectionFactory.CreateConnection();
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand(sql, connection);
+
+        return await command.ExecuteNonQueryAsync();
+    }
 
     public async Task<List<Room>> GetByStatusAsync(string status)
     {
@@ -261,32 +282,35 @@ public class RoomDAO
     }
 
     public async Task<bool> UpdateStatusAsync(
-    int roomId,
-    string status,
-    int updatedBy,
-    string? rejectReason = null)
+     int roomId,
+     string status,
+     int updatedBy,
+     string? rejectReason = null)
     {
-        await using var connection = _connectionFactory.CreateConnection();
-
+        await using var connection =
+            _connectionFactory.CreateConnection();
         await connection.OpenAsync();
-
-        // Nếu có lý do từ chối và bảng Rooms có cột RejectReason thì lưu luôn
-        // Nếu chưa có cột thì chỉ update Status + UpdatedAt + UpdatedBy
         const string sql = """
         UPDATE Rooms
         SET
             Status = @Status,
+            RejectReason = CASE
+                WHEN @Status = 'Rejected' THEN @RejectReason
+                ELSE NULL
+            END,
             UpdatedAt = SYSDATETIME(),
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id
           AND IsDeleted = 0;
         """;
-
         await using var command = new SqlCommand(sql, connection);
-
-        command.Parameters.AddWithValue("@Id", roomId);
-        command.Parameters.AddWithValue("@Status", status);
-        command.Parameters.AddWithValue("@UpdatedBy", updatedBy);
+        command.Parameters.Add("@Id", SqlDbType.Int).Value = roomId;
+        command.Parameters.Add("@Status", SqlDbType.NVarChar, 20)
+            .Value = status;
+        command.Parameters.Add("@UpdatedBy", SqlDbType.Int)
+            .Value = updatedBy;
+        command.Parameters.Add("@RejectReason", SqlDbType.NVarChar, 500)
+            .Value = (object?)rejectReason ?? DBNull.Value;
         var rows = await command.ExecuteNonQueryAsync();
         return rows > 0;
     }
@@ -295,44 +319,66 @@ public class RoomDAO
         RoomSearchFilter filter)
     {
         const string sql = """
-    SELECT 
-        r.Id, 
-        r.LandlordId, 
-        r.CategoryId, 
-        r.Title, 
-        r.Description, 
-        r.Price, 
-        r.Area, 
-        r.District, 
-        r.Ward, 
-        r.AddressDetail, 
-        r.Status, 
-        r.ViewCount, 
-        r.CreatedAt, 
-        r.UpdatedAt, 
-        r.UpdatedBy, 
-        r.IsDeleted,
-        img.Url AS ImageUrl
-    FROM Rooms r
-    OUTER APPLY
+SELECT 
+    r.Id, 
+    r.LandlordId, 
+    r.CategoryId, 
+    r.Title, 
+    r.Description, 
+    r.Price, 
+    r.Area, 
+    r.District, 
+    r.Ward, 
+    r.AddressDetail, 
+    r.Status, 
+    r.ViewCount, 
+    r.CreatedAt, 
+    r.UpdatedAt, 
+    r.UpdatedBy, 
+    r.IsDeleted,
+
+    img.Url AS ImageUrl,
+
     (
-        SELECT TOP 1 Url
-        FROM RoomImages
-        WHERE RoomId = r.Id
-        ORDER BY SortOrder ASC, Id ASC
-    ) img
-    WHERE r.IsDeleted = 0 
-      AND r.Status = 'Available' 
-      AND (@Keyword IS NULL OR r.Title LIKE '%' + @Keyword + '%') 
-      AND (@CategoryId IS NULL OR r.CategoryId = @CategoryId) 
-      AND (@District IS NULL OR r.District = @District) 
-      AND (@Ward IS NULL OR r.Ward = @Ward) 
-      AND (@MinPrice IS NULL OR r.Price >= @MinPrice) 
-      AND (@MaxPrice IS NULL OR r.Price <= @MaxPrice) 
-    ORDER BY r.CreatedAt DESC 
-    OFFSET @Offset ROWS 
-    FETCH NEXT @PageSize ROWS ONLY;
-    """;
+        SELECT COUNT(*)
+        FROM RoomImages ri
+        WHERE ri.RoomId = r.Id
+    ) AS ImageCount,
+
+    am.AmenityNames
+
+FROM Rooms r
+
+OUTER APPLY
+(
+    SELECT TOP 1 Url
+    FROM RoomImages
+    WHERE RoomId = r.Id
+    ORDER BY SortOrder ASC, Id ASC
+) img
+
+OUTER APPLY
+(
+    SELECT STRING_AGG(a.Name, ', ') AS AmenityNames
+    FROM RoomAmenities ra
+    INNER JOIN Amenities a
+        ON ra.AmenityId = a.Id
+    WHERE ra.RoomId = r.Id
+) am
+
+WHERE r.IsDeleted = 0 
+  AND r.Status = 'Available' 
+  AND (@Keyword IS NULL OR r.Title LIKE '%' + @Keyword + '%') 
+  AND (@CategoryId IS NULL OR r.CategoryId = @CategoryId) 
+  AND (@District IS NULL OR r.District = @District) 
+  AND (@Ward IS NULL OR r.Ward = @Ward) 
+  AND (@MinPrice IS NULL OR r.Price >= @MinPrice) 
+  AND (@MaxPrice IS NULL OR r.Price <= @MaxPrice) 
+
+ORDER BY r.CreatedAt DESC 
+OFFSET @Offset ROWS 
+FETCH NEXT @PageSize ROWS ONLY;
+""";
 
         const string countSql = """
             SELECT COUNT(*)
@@ -393,7 +439,14 @@ public class RoomDAO
                     IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
                     ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl"))
                     ? null
-                    : reader.GetString(reader.GetOrdinal("ImageUrl"))
+                    : reader.GetString(reader.GetOrdinal("ImageUrl")),
+                    ImageCount = reader.GetInt32(
+                    reader.GetOrdinal("ImageCount")),
+                    Amenities = reader.IsDBNull(reader.GetOrdinal("AmenityNames"))
+                    ? new List<string>()
+                    : reader.GetString(reader.GetOrdinal("AmenityNames"))
+                        .Split(", ", StringSplitOptions.RemoveEmptyEntries)
+                        .ToList(),
                 });
             }
         }
@@ -416,13 +469,75 @@ public class RoomDAO
         return (rooms, totalCount);
     }
 
+    public async Task<LandlordActionItemsResponse>
+    GetLandlordActionItemsAsync(int landlordId)
+    {
+        const string sql = """
+        SELECT
+            COALESCE(SUM(
+                CASE WHEN Status = 'Pending'
+                     THEN 1 ELSE 0 END
+            ), 0) AS PendingCount,
+
+            COALESCE(SUM(
+                CASE WHEN Status = 'Rejected'
+                     THEN 1 ELSE 0 END
+            ), 0) AS RejectedCount,
+
+            COALESCE(SUM(
+                CASE
+                    WHEN Status = 'Available'
+                     AND COALESCE(UpdatedAt, CreatedAt)
+                         < DATEADD(DAY, -30, SYSDATETIME())
+                    THEN 1
+                    ELSE 0
+                END
+            ), 0) AS NeedsStatusReviewCount
+
+        FROM Rooms
+        WHERE LandlordId = @LandlordId
+          AND IsDeleted = 0;
+        """;
+
+        await using var connection =
+            _connectionFactory.CreateConnection();
+
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@LandlordId", landlordId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        if (!await reader.ReadAsync())
+        {
+            return new LandlordActionItemsResponse();
+        }
+
+        return new LandlordActionItemsResponse
+        {
+            PendingCount = reader.GetInt32(
+                reader.GetOrdinal("PendingCount")),
+
+            RejectedCount = reader.GetInt32(
+                reader.GetOrdinal("RejectedCount")),
+
+            NeedsStatusReviewCount = reader.GetInt32(
+                reader.GetOrdinal("NeedsStatusReviewCount"))
+        };
+    }
+
     public async Task<Room?> GetByIdAsync(int id)
     {
         const string sql = """
             SELECT
                 r.Id,
                 r.LandlordId,
+                u.FullName AS LandlordName,
+                u.Phone AS LandlordPhone,
                 r.CategoryId,
+                c.Name AS CategoryName,
                 r.Title,
                 r.Description,
                 r.Price,
@@ -436,9 +551,12 @@ public class RoomDAO
                 r.UpdatedAt,
                 r.UpdatedBy,
                 r.IsDeleted,
-                c.Name AS CategoryName         
+                r.RejectReason
             FROM Rooms r
-            LEFT JOIN Categories c ON r.CategoryId = c.Id 
+            INNER JOIN Users u
+                ON r.LandlordId = u.Id
+            INNER JOIN Categories c
+                ON r.CategoryId = c.Id
             WHERE r.Id = @Id
               AND r.IsDeleted = 0;
             """;
@@ -455,6 +573,13 @@ public class RoomDAO
         {
             Id = reader.GetInt32(reader.GetOrdinal("Id")),
             LandlordId = reader.GetInt32(reader.GetOrdinal("LandlordId")),
+            LandlordName = reader.IsDBNull(reader.GetOrdinal("LandlordName"))
+            ? null
+            : reader.GetString(reader.GetOrdinal("LandlordName")),
+
+                    LandlordPhone = reader.IsDBNull(reader.GetOrdinal("LandlordPhone"))
+            ? null
+            : reader.GetString(reader.GetOrdinal("LandlordPhone")),
             CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
             Title = reader.GetString(reader.GetOrdinal("Title")),
             Description = reader.GetString(reader.GetOrdinal("Description")),
@@ -464,6 +589,7 @@ public class RoomDAO
             Ward = reader.GetString(reader.GetOrdinal("Ward")),
             AddressDetail = reader.GetString(reader.GetOrdinal("AddressDetail")),
             Status = reader.GetString(reader.GetOrdinal("Status")),
+            //RejectReason = reader.GetString(reader.GetOrdinal("RejectReason")),
             ViewCount = reader.GetInt32(reader.GetOrdinal("ViewCount")),
             CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
             UpdatedAt = reader.IsDBNull(reader.GetOrdinal("UpdatedAt"))

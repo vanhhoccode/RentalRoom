@@ -1,0 +1,62 @@
+.toastContainer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #ffffff;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toastSuccess {
+  background-color: #0b1c30;
+}
+.toastError {
+  background-color: #ba1a1a;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.iconSuccess {
+  color: #6ffbbe; /* tertiary-fixed */
+}
+.iconError {
+  color: #ffdad6;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.desc {
+  font-size: 12px;
+  opacity: 0.9;
+  font-family: "Be Vietnam Pro", sans-serif;
+}

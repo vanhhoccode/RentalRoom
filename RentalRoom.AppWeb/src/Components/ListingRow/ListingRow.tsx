@@ -51,7 +51,15 @@ export default function ListingRow({ room, onView, onEdit, onDelete, onToggleSta
                             <span className="material-symbols-outlined text-[14px]">
                                 {room.status === 'Pending' ? 'schedule' : 'calendar_today'}
                             </span>
-                            {room.createdAt}
+                            {room.createdAt ? new Date(room.createdAt).toLocaleString('vi-VN', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: false
+                            })
+                                : 'Chưa có ngày tạo'}
                         </span>
                     </div>
 
@@ -78,14 +86,32 @@ export default function ListingRow({ room, onView, onEdit, onDelete, onToggleSta
                 </button>
 
                 <div className={styles.iconGroup}>
-                    <button className={styles.btnIcon} onClick={() => onView(room.id)} title="Xem chi tiết">
+                    {/* Nút Xem Chi Tiết */}
+                    <button className={`${styles.btnIcon} relative group/action`} onClick={() => onView(room.id)}>
                         <span className="material-symbols-outlined text-[20px]">visibility</span>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 bg-[#0b1c30] text-white text-[11px] font-medium rounded opacity-0 invisible group-hover/action:opacity-100 group-hover/action:visible transition-all duration-200 whitespace-nowrap z-10 shadow-md">
+                            Xem chi tiết
+                            {/* Mũi tên tooltip */}
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-[#0b1c30]"></div>
+                        </div>
                     </button>
-                    <button className={styles.btnIcon} onClick={() => onEdit(room.id)} title="Chỉnh sửa tin">
+
+                    {/* Nút Chỉnh Sửa */}
+                    <button className={`${styles.btnIcon} relative group/action`} onClick={() => onEdit(room.id)}>
                         <span className="material-symbols-outlined text-[20px]">edit_square</span>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 bg-[#0b1c30] text-white text-[11px] font-medium rounded opacity-0 invisible group-hover/action:opacity-100 group-hover/action:visible transition-all duration-200 whitespace-nowrap z-10 shadow-md">
+                            Chỉnh sửa tin
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-[#0b1c30]"></div>
+                        </div>
                     </button>
-                    <button className={styles.btnIconDanger} onClick={() => onDelete(room.id)} title="Xóa tin">
+
+                    {/* Nút Xóa */}
+                    <button className={`${styles.btnIconDanger} relative group/action`} onClick={() => onDelete(room.id)}>
                         <span className="material-symbols-outlined text-[20px]">delete</span>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 bg-[#ba1a1a] text-white text-[11px] font-medium rounded opacity-0 invisible group-hover/action:opacity-100 group-hover/action:visible transition-all duration-200 whitespace-nowrap z-10 shadow-md">
+                            Xóa tin
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-[#ba1a1a]"></div>
+                        </div>
                     </button>
                 </div>
             </div>

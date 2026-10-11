@@ -143,6 +143,15 @@ public class RoomController : ControllerBase
     }
 
     [Authorize(Roles = "LANDLORD")]
+    [HttpGet("my/action-items")]
+    public async Task<IActionResult> GetMyActionItems()
+    {
+        var result = await _roomBiz.GetMyActionItemsAsync();
+
+        return Ok(result);
+    }
+
+    [Authorize(Roles = "LANDLORD")]
     [HttpGet("my")]
     public async Task<IActionResult> GetMyRooms()
     {

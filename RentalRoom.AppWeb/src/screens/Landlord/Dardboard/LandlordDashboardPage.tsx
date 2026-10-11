@@ -28,7 +28,7 @@ interface KPI {
 }
 
 const STATUS_MAP: Record<string, { label: string; color: string; bg: string; dot: string }> = {
-    Available: { label: 'Đang cho thuê', color: '#065f46', bg: '#dcfce7', dot: '#16a34a' },
+    Available: { label: 'Có sẵn', color: '#065f46', bg: '#dcfce7', dot: '#16a34a' },
     Rented: { label: 'Đã cho thuê', color: '#475569', bg: '#f1f5f9', dot: '#94a3b8' },
     Pending: { label: 'Chờ duyệt', color: '#92400e', bg: '#fef3c7', dot: '#d97706' },
     Rejected: { label: 'Bị từ chối', color: '#93000a', bg: '#ffdad6', dot: '#ba1a1a' },
@@ -119,7 +119,7 @@ export default function LandlordDashboardPage() {
                                             ? 'Đang tải dữ liệu...'
                                             : kpi.available > 0
                                                 ? <>Bạn có <strong className="text-[#00685f]">{kpi.available} phòng</strong> đang hiển thị và đón khách thuê.</>
-                                                : 'Hiện chưa có phòng nào đang cho thuê. Hãy đăng tin mới!'
+                                                : 'Hiện chưa có phòng nào có sẵn. Hãy đăng tin mới!'
                                         }
                                     </p>
                                 </div>
@@ -138,7 +138,7 @@ export default function LandlordDashboardPage() {
                             {[
                                 { label: 'Tổng tin đăng', value: kpi.total, icon: 'real_estate_agent', color: '#00685f', bg: '#eff4ff' },
                                 { label: 'Chờ duyệt', value: kpi.pending, icon: 'hourglass_top', color: '#b45309', bg: '#fef3c7' },
-                                { label: 'Đang cho thuê', value: kpi.available, icon: 'check_circle', color: '#065f46', bg: '#dcfce7' },
+                                { label: 'Có sẵn', value: kpi.available, icon: 'check_circle', color: '#065f46', bg: '#dcfce7' },
                                 { label: 'Đã cho thuê', value: kpi.rented, icon: 'key', color: '#006398', bg: '#cce5ff' },
                             ].map(card => (
                                 <div key={card.label} className="bg-white rounded-2xl p-5 shadow-sm border border-[#eaf1ff] flex items-center gap-4">
@@ -272,7 +272,7 @@ export default function LandlordDashboardPage() {
                                     <div className="grid grid-cols-2 gap-2 text-[13px]">
                                         {[
                                             { label: 'Đã cho thuê', count: kpi.rented, color: '#006398' },
-                                            { label: 'Đang cho thuê', count: kpi.available, color: '#00685f' },
+                                            { label: 'Có sẵn', count: kpi.available, color: '#00685f' },
                                             { label: 'Chờ duyệt', count: kpi.pending, color: '#d97706' },
                                             { label: 'Bị từ chối', count: kpi.rejected, color: '#ba1a1a' },
                                         ].map(item => (
@@ -326,7 +326,7 @@ export default function LandlordDashboardPage() {
                                         <span className="font-semibold text-[#006398] bg-[#cce5ff] px-1.5 py-0.5 rounded">
                                             Đã cho thuê
                                         </span>{' '}
-                                        ngay để tránh cuộc gọi làm phiền.
+                                        Ẩn khỏi danh sách tìm kiếm để hạn chế liên hệ nhầm.
                                     </p>
                                 </div>
                             </div>

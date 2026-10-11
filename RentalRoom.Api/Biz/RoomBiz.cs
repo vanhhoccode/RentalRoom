@@ -1,5 +1,6 @@
 using RentalRoom.Api.Common.Exceptions;
 using RentalRoom.Api.DAO;
+using RentalRoom.Api.DTOs;
 using RentalRoom.Api.DTOs.Category;
 using RentalRoom.Api.DTOs.Rooms;
 using RentalRoom.Api.Entities;
@@ -14,17 +15,20 @@ public class RoomBiz
     private readonly RoomDAO _roomDAO;
     private readonly RoomImageDAO _roomImageDAO;
     private readonly RoomAmenityDAO _roomAmenityDAO;
+    private readonly ReportDAO _reportDAO;
     private readonly IHttpContextAccessor _httpContextAccessor;
     public RoomBiz(
     RoomDAO roomDAO,
     RoomImageDAO roomImageDAO,
     RoomAmenityDAO roomAmenityDAO,
-    IHttpContextAccessor httpContextAccessor)
+    IHttpContextAccessor httpContextAccessor,
+    ReportDAO reportDAO)
     {
         _roomDAO = roomDAO;
         _roomImageDAO = roomImageDAO;
         _roomAmenityDAO = roomAmenityDAO;
         _httpContextAccessor = httpContextAccessor;
+        _reportDAO = reportDAO;
     }
     public async Task<CreateRoomResponse> CreateRoomAsync(
     CreateRoomRequest request)
@@ -196,6 +200,25 @@ public class RoomBiz
 
             throw; // ré-throw để GlobalExceptionHandler xử lý
         }
+    }
+
+    public async Task<LandlordActionItemsResponse>
+    GetMyActionItemsAsync()
+    {
+        var userIdClaim = _httpContextAccessor.HttpContext?
+            .User
+            .FindFirst(ClaimTypes.NameIdentifier);
+
+        if (userIdClaim == null ||
+            !int.TryParse(userIdClaim.Value, out var landlordId))
+        {
+            throw new AppException(
+                "UNAUTHORIZED",
+                "Bạn chưa đăng nhập.",
+                401);
+        }
+
+        return await _roomDAO.GetLandlordActionItemsAsync(landlordId);
     }
 
     public async Task UpdateRoomAsync(
@@ -437,7 +460,8 @@ public class RoomBiz
             Status = room.Status,
             ViewCount = room.ViewCount,
             CreatedAt = room.CreatedAt,
-            ImageUrl = room.ImageUrl
+            ImageUrl = room.ImageUrl,
+            RejectReason = room.RejectReason
         }).ToList();
     }
 
@@ -491,7 +515,9 @@ public class RoomBiz
                 Status = room.Status,
                 ViewCount = room.ViewCount,
                 CreatedAt = room.CreatedAt,
-                ImageUrl = room.ImageUrl
+                ImageUrl = room.ImageUrl,
+                Amenities = room.Amenities,
+                ImageCount = room.ImageCount,
             })
             .ToList();
 
@@ -640,15 +666,21 @@ public class RoomBiz
         }
 
         // 7. Không cho cập nhật tin chưa được duyệt
-        if (room.Status == "Pending")
+        // 7. Chỉ cho phép chuyển trạng thái hợp lệ
+        var canTransition =
+            (room.Status == "Available" && status == "Rented") ||
+            (room.Status == "Rented" && status == "Available");
+
+        if (!canTransition)
         {
             throw new AppException(
-                "ROOM_NOT_APPROVED",
-                "Tin đăng chưa được duyệt.",
+                "INVALID_STATUS_TRANSITION",
+                "Chỉ được chuyển phòng từ Còn trống sang Đã cho thuê "
+                + "hoặc từ Đã cho thuê sang Còn trống.",
                 400);
         }
 
-        // 8. Update
+        // 8. Cập nhật trạng thái
         var updated = await _roomDAO.UpdateStatusAsync(
             roomId,
             status,
@@ -657,9 +689,9 @@ public class RoomBiz
         if (!updated)
         {
             throw new AppException(
-                "UPDATE_FAILED",
-                "Không thể cập nhật trạng thái phòng.",
-                500);
+                "INVALID_STATUS_TRANSITION",
+                "Trạng thái phòng đã thay đổi hoặc không còn hợp lệ.",
+                400);
         }
     }
     public async Task ApproveRoomAsync(int roomId)
@@ -758,14 +790,6 @@ public class RoomBiz
         }
 
         // [FIX BUG 4] Dọn file ảnh khi tin bị từ chối
-        var roomFolder = Path.Combine(
-            Directory.GetCurrentDirectory(),
-            "wwwroot", "uploads", "rooms", roomId.ToString());
-
-        if (Directory.Exists(roomFolder))
-        {
-            Directory.Delete(roomFolder, recursive: true);
-        }
     }
     //Review: Ko nen xoa anh khi bi tu choi
     //Review: Thiếu thông tin về chủ trọ => admin ko bt ai đăng tin.
@@ -807,6 +831,11 @@ public class RoomBiz
         return int.Parse(userIdClaim.Value);
     }
 
+    public Task<int> ExpireAvailableRoomsNotUpdatedFor30DaysAsync()
+    {
+        return _roomDAO.ExpireAvailableRoomsNotUpdatedFor30DaysAsync();
+    }
+
     public async Task<RoomDetailResponse?> GetRoomByIdAsync(int id)
     {
         // 1. Lấy phòng
@@ -817,78 +846,99 @@ public class RoomBiz
             return null;
         }
 
-        // 2. Tin đã xóa -> không cho xem
+        // 2. Phòng đã xóa
         if (room.IsDeleted)
         {
             return null;
         }
 
-        // 3. Lấy thông tin người đang gọi API
+        // 3. User hiện tại
         var user = _httpContextAccessor.HttpContext?.User;
+
+        var isTenant = user?.IsInRole("TENANT") == true;
+        var isAdmin = user?.IsInRole("ADMIN") == true;
 
         var userIdClaim = user?
             .FindFirst(ClaimTypes.NameIdentifier);
 
-        int.TryParse(userIdClaim?.Value, out int currentUserId);
+        int.TryParse(
+            userIdClaim?.Value,
+            out var currentUserId);
 
-        // Kiểm tra Admin
-        var isAdmin = user?.IsInRole("ADMIN") == true;
-
-        // Kiểm tra chính chủ
         var isOwner = room.LandlordId == currentUserId;
 
-        // 4. Kiểm tra quyền xem theo trạng thái
+        // 4. Pending / Rejected:
+        // chỉ Admin hoặc chính chủ được xem
         if (room.Status == "Pending" || room.Status == "Rejected")
         {
-            // Pending / Rejected:
-            // chỉ Admin hoặc chính chủ được xem
             if (!isAdmin && !isOwner)
             {
                 return null;
             }
         }
-        else if (room.Status != "Available" && room.Status != "Rented")
+        else if (room.Status != "Available" &&
+                 room.Status != "Rented")
         {
-            // Các trạng thái khác ngoài Available / Rented
-            // và ngoài Pending / Rejected -> không cho xem
             return null;
         }
 
-        // 5. Tăng ViewCount — chỉ tăng khi không phải chính chủ và không phải admin
-        //    (tức là guest hoặc tenant thực sự đang xem)
-        if (!isOwner && !isAdmin && room.Status == "Available")
-        {
-            await _roomDAO.IncrementViewCountAsync(id);
-        }
-
-        // 6. Lấy toàn bộ ảnh
+        // 5. Lấy toàn bộ ảnh
         var images = await _roomImageDAO.GetByRoomIdAsync(id);
 
-        // 7. Lấy toàn bộ tiện ích
+        // 6. Lấy toàn bộ tiện ích
         var amenities = await _roomAmenityDAO.GetByRoomIdAsync(id);
 
-        // 7. Trả về chi tiết phòng
+        // 7. Kiểm tra Tenant hiện tại đã report room này chưa
+        var hasReported = false;
+
+        if (isTenant)
+        {
+            hasReported = await _reportDAO.ExistsAsync(
+                currentUserId,
+                id);
+        }
+
+        // 8. Chỉ Tenant + Available mới được nhận số điện thoại
+        var canContact =
+            isTenant &&
+            room.Status == "Available";
+
+        // 9. Trả về detail
         return new RoomDetailResponse
         {
             Id = room.Id,
+
             CategoryId = room.CategoryId,
+            CategoryName = room.CategoryName,
+
             Title = room.Title,
             Description = room.Description,
+
             Price = room.Price,
             Area = room.Area,
+
             District = room.District,
             Ward = room.Ward,
             AddressDetail = room.AddressDetail,
+
             Status = room.Status,
+            RejectReason = room.RejectReason,
             ViewCount = room.ViewCount,
             CreatedAt = room.CreatedAt,
-            CategoryName = room.CategoryName ?? string.Empty,
 
             Images = images
                 .Select(x => x.Url)
                 .ToList(),
 
-            Amenities = amenities
+            Amenities = amenities,
+
+            LandlordName = room.LandlordName,
+
+            LandlordPhone = canContact
+                ? room.LandlordPhone
+                : null,
+
+            HasReported = hasReported
         };
     }
 }

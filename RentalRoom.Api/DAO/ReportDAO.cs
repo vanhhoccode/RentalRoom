@@ -137,6 +137,29 @@ public class ReportDAO
         return rows > 0;
     }
 
+    public async Task<bool> ExistsAsync(int tenantId, int roomId)
+    {
+        const string sql = """
+        SELECT COUNT(1)
+        FROM Reports
+        WHERE TenantId = @TenantId
+          AND RoomId = @RoomId;
+        """;
+
+        await using var connection = _connectionFactory.CreateConnection();
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@TenantId", tenantId);
+        command.Parameters.AddWithValue("@RoomId", roomId);
+
+        var count = Convert.ToInt32(
+            await command.ExecuteScalarAsync());
+
+        return count > 0;
+    }
+
     public async Task<List<ReportResponse>> GetListAsync(string? status)
     {
         var reports = new List<ReportResponse>();

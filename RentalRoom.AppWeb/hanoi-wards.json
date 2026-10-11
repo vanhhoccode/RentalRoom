@@ -1,0 +1,636 @@
+{
+  "province": "Hà Nội",
+  "source_note": "Danh sách 51 phường và 75 xã theo Nghị quyết 1656/NQ-UBTVQH15; dùng làm static master data cho FE.",
+  "units": [
+    {
+      "name": "Hoàn Kiếm",
+      "type": "ward",
+      "displayName": "Phường Hoàn Kiếm"
+    },
+    {
+      "name": "Cửa Nam",
+      "type": "ward",
+      "displayName": "Phường Cửa Nam"
+    },
+    {
+      "name": "Ba Đình",
+      "type": "ward",
+      "displayName": "Phường Ba Đình"
+    },
+    {
+      "name": "Ngọc Hà",
+      "type": "ward",
+      "displayName": "Phường Ngọc Hà"
+    },
+    {
+      "name": "Giảng Võ",
+      "type": "ward",
+      "displayName": "Phường Giảng Võ"
+    },
+    {
+      "name": "Hai Bà Trưng",
+      "type": "ward",
+      "displayName": "Phường Hai Bà Trưng"
+    },
+    {
+      "name": "Vĩnh Tuy",
+      "type": "ward",
+      "displayName": "Phường Vĩnh Tuy"
+    },
+    {
+      "name": "Bạch Mai",
+      "type": "ward",
+      "displayName": "Phường Bạch Mai"
+    },
+    {
+      "name": "Đống Đa",
+      "type": "ward",
+      "displayName": "Phường Đống Đa"
+    },
+    {
+      "name": "Kim Liên",
+      "type": "ward",
+      "displayName": "Phường Kim Liên"
+    },
+    {
+      "name": "Văn Miếu - Quốc Tử Giám",
+      "type": "ward",
+      "displayName": "Phường Văn Miếu - Quốc Tử Giám"
+    },
+    {
+      "name": "Láng",
+      "type": "ward",
+      "displayName": "Phường Láng"
+    },
+    {
+      "name": "Ô Chợ Dừa",
+      "type": "ward",
+      "displayName": "Phường Ô Chợ Dừa"
+    },
+    {
+      "name": "Hồng Hà",
+      "type": "ward",
+      "displayName": "Phường Hồng Hà"
+    },
+    {
+      "name": "Lĩnh Nam",
+      "type": "ward",
+      "displayName": "Phường Lĩnh Nam"
+    },
+    {
+      "name": "Hoàng Mai",
+      "type": "ward",
+      "displayName": "Phường Hoàng Mai"
+    },
+    {
+      "name": "Vĩnh Hưng",
+      "type": "ward",
+      "displayName": "Phường Vĩnh Hưng"
+    },
+    {
+      "name": "Tương Mai",
+      "type": "ward",
+      "displayName": "Phường Tương Mai"
+    },
+    {
+      "name": "Định Công",
+      "type": "ward",
+      "displayName": "Phường Định Công"
+    },
+    {
+      "name": "Hoàng Liệt",
+      "type": "ward",
+      "displayName": "Phường Hoàng Liệt"
+    },
+    {
+      "name": "Yên Sở",
+      "type": "ward",
+      "displayName": "Phường Yên Sở"
+    },
+    {
+      "name": "Thanh Xuân",
+      "type": "ward",
+      "displayName": "Phường Thanh Xuân"
+    },
+    {
+      "name": "Khương Đình",
+      "type": "ward",
+      "displayName": "Phường Khương Đình"
+    },
+    {
+      "name": "Phương Liệt",
+      "type": "ward",
+      "displayName": "Phường Phương Liệt"
+    },
+    {
+      "name": "Cầu Giấy",
+      "type": "ward",
+      "displayName": "Phường Cầu Giấy"
+    },
+    {
+      "name": "Nghĩa Đô",
+      "type": "ward",
+      "displayName": "Phường Nghĩa Đô"
+    },
+    {
+      "name": "Yên Hòa",
+      "type": "ward",
+      "displayName": "Phường Yên Hòa"
+    },
+    {
+      "name": "Tây Hồ",
+      "type": "ward",
+      "displayName": "Phường Tây Hồ"
+    },
+    {
+      "name": "Phú Thượng",
+      "type": "ward",
+      "displayName": "Phường Phú Thượng"
+    },
+    {
+      "name": "Tây Tựu",
+      "type": "ward",
+      "displayName": "Phường Tây Tựu"
+    },
+    {
+      "name": "Phú Diễn",
+      "type": "ward",
+      "displayName": "Phường Phú Diễn"
+    },
+    {
+      "name": "Xuân Đỉnh",
+      "type": "ward",
+      "displayName": "Phường Xuân Đỉnh"
+    },
+    {
+      "name": "Đông Ngạc",
+      "type": "ward",
+      "displayName": "Phường Đông Ngạc"
+    },
+    {
+      "name": "Thượng Cát",
+      "type": "ward",
+      "displayName": "Phường Thượng Cát"
+    },
+    {
+      "name": "Từ Liêm",
+      "type": "ward",
+      "displayName": "Phường Từ Liêm"
+    },
+    {
+      "name": "Xuân Phương",
+      "type": "ward",
+      "displayName": "Phường Xuân Phương"
+    },
+    {
+      "name": "Tây Mỗ",
+      "type": "ward",
+      "displayName": "Phường Tây Mỗ"
+    },
+    {
+      "name": "Đại Mỗ",
+      "type": "ward",
+      "displayName": "Phường Đại Mỗ"
+    },
+    {
+      "name": "Long Biên",
+      "type": "ward",
+      "displayName": "Phường Long Biên"
+    },
+    {
+      "name": "Bồ Đề",
+      "type": "ward",
+      "displayName": "Phường Bồ Đề"
+    },
+    {
+      "name": "Việt Hưng",
+      "type": "ward",
+      "displayName": "Phường Việt Hưng"
+    },
+    {
+      "name": "Phúc Lợi",
+      "type": "ward",
+      "displayName": "Phường Phúc Lợi"
+    },
+    {
+      "name": "Hà Đông",
+      "type": "ward",
+      "displayName": "Phường Hà Đông"
+    },
+    {
+      "name": "Dương Nội",
+      "type": "ward",
+      "displayName": "Phường Dương Nội"
+    },
+    {
+      "name": "Yên Nghĩa",
+      "type": "ward",
+      "displayName": "Phường Yên Nghĩa"
+    },
+    {
+      "name": "Phú Lương",
+      "type": "ward",
+      "displayName": "Phường Phú Lương"
+    },
+    {
+      "name": "Kiến Hưng",
+      "type": "ward",
+      "displayName": "Phường Kiến Hưng"
+    },
+    {
+      "name": "Thanh Liệt",
+      "type": "ward",
+      "displayName": "Phường Thanh Liệt"
+    },
+    {
+      "name": "Chương Mỹ",
+      "type": "ward",
+      "displayName": "Phường Chương Mỹ"
+    },
+    {
+      "name": "Sơn Tây",
+      "type": "ward",
+      "displayName": "Phường Sơn Tây"
+    },
+    {
+      "name": "Tùng Thiện",
+      "type": "ward",
+      "displayName": "Phường Tùng Thiện"
+    },
+    {
+      "name": "Thanh Trì",
+      "type": "commune",
+      "displayName": "Xã Thanh Trì"
+    },
+    {
+      "name": "Đại Thanh",
+      "type": "commune",
+      "displayName": "Xã Đại Thanh"
+    },
+    {
+      "name": "Nam Phù",
+      "type": "commune",
+      "displayName": "Xã Nam Phù"
+    },
+    {
+      "name": "Ngọc Hồi",
+      "type": "commune",
+      "displayName": "Xã Ngọc Hồi"
+    },
+    {
+      "name": "Thượng Phúc",
+      "type": "commune",
+      "displayName": "Xã Thượng Phúc"
+    },
+    {
+      "name": "Thường Tín",
+      "type": "commune",
+      "displayName": "Xã Thường Tín"
+    },
+    {
+      "name": "Chương Dương",
+      "type": "commune",
+      "displayName": "Xã Chương Dương"
+    },
+    {
+      "name": "Hồng Vân",
+      "type": "commune",
+      "displayName": "Xã Hồng Vân"
+    },
+    {
+      "name": "Phú Xuyên",
+      "type": "commune",
+      "displayName": "Xã Phú Xuyên"
+    },
+    {
+      "name": "Phượng Dực",
+      "type": "commune",
+      "displayName": "Xã Phượng Dực"
+    },
+    {
+      "name": "Chuyên Mỹ",
+      "type": "commune",
+      "displayName": "Xã Chuyên Mỹ"
+    },
+    {
+      "name": "Đại Xuyên",
+      "type": "commune",
+      "displayName": "Xã Đại Xuyên"
+    },
+    {
+      "name": "Thanh Oai",
+      "type": "commune",
+      "displayName": "Xã Thanh Oai"
+    },
+    {
+      "name": "Bình Minh",
+      "type": "commune",
+      "displayName": "Xã Bình Minh"
+    },
+    {
+      "name": "Tam Hưng",
+      "type": "commune",
+      "displayName": "Xã Tam Hưng"
+    },
+    {
+      "name": "Dân Hòa",
+      "type": "commune",
+      "displayName": "Xã Dân Hòa"
+    },
+    {
+      "name": "Vân Đình",
+      "type": "commune",
+      "displayName": "Xã Vân Đình"
+    },
+    {
+      "name": "Ứng Thiên",
+      "type": "commune",
+      "displayName": "Xã Ứng Thiên"
+    },
+    {
+      "name": "Hòa Xá",
+      "type": "commune",
+      "displayName": "Xã Hòa Xá"
+    },
+    {
+      "name": "Ứng Hòa",
+      "type": "commune",
+      "displayName": "Xã Ứng Hòa"
+    },
+    {
+      "name": "Mỹ Đức",
+      "type": "commune",
+      "displayName": "Xã Mỹ Đức"
+    },
+    {
+      "name": "Hồng Sơn",
+      "type": "commune",
+      "displayName": "Xã Hồng Sơn"
+    },
+    {
+      "name": "Phúc Sơn",
+      "type": "commune",
+      "displayName": "Xã Phúc Sơn"
+    },
+    {
+      "name": "Hương Sơn",
+      "type": "commune",
+      "displayName": "Xã Hương Sơn"
+    },
+    {
+      "name": "Phú Nghĩa",
+      "type": "commune",
+      "displayName": "Xã Phú Nghĩa"
+    },
+    {
+      "name": "Xuân Mai",
+      "type": "commune",
+      "displayName": "Xã Xuân Mai"
+    },
+    {
+      "name": "Trần Phú",
+      "type": "commune",
+      "displayName": "Xã Trần Phú"
+    },
+    {
+      "name": "Hòa Phú",
+      "type": "commune",
+      "displayName": "Xã Hòa Phú"
+    },
+    {
+      "name": "Quảng Bị",
+      "type": "commune",
+      "displayName": "Xã Quảng Bị"
+    },
+    {
+      "name": "Minh Châu",
+      "type": "commune",
+      "displayName": "Xã Minh Châu"
+    },
+    {
+      "name": "Quảng Oai",
+      "type": "commune",
+      "displayName": "Xã Quảng Oai"
+    },
+    {
+      "name": "Vật Lại",
+      "type": "commune",
+      "displayName": "Xã Vật Lại"
+    },
+    {
+      "name": "Cổ Đô",
+      "type": "commune",
+      "displayName": "Xã Cổ Đô"
+    },
+    {
+      "name": "Bất Bạt",
+      "type": "commune",
+      "displayName": "Xã Bất Bạt"
+    },
+    {
+      "name": "Suối Hai",
+      "type": "commune",
+      "displayName": "Xã Suối Hai"
+    },
+    {
+      "name": "Ba Vì",
+      "type": "commune",
+      "displayName": "Xã Ba Vì"
+    },
+    {
+      "name": "Yên Bài",
+      "type": "commune",
+      "displayName": "Xã Yên Bài"
+    },
+    {
+      "name": "Đoài Phương",
+      "type": "commune",
+      "displayName": "Xã Đoài Phương"
+    },
+    {
+      "name": "Phúc Thọ",
+      "type": "commune",
+      "displayName": "Xã Phúc Thọ"
+    },
+    {
+      "name": "Phúc Lộc",
+      "type": "commune",
+      "displayName": "Xã Phúc Lộc"
+    },
+    {
+      "name": "Hát Môn",
+      "type": "commune",
+      "displayName": "Xã Hát Môn"
+    },
+    {
+      "name": "Thạch Thất",
+      "type": "commune",
+      "displayName": "Xã Thạch Thất"
+    },
+    {
+      "name": "Hạ Bằng",
+      "type": "commune",
+      "displayName": "Xã Hạ Bằng"
+    },
+    {
+      "name": "Tây Phương",
+      "type": "commune",
+      "displayName": "Xã Tây Phương"
+    },
+    {
+      "name": "Hòa Lạc",
+      "type": "commune",
+      "displayName": "Xã Hòa Lạc"
+    },
+    {
+      "name": "Yên Xuân",
+      "type": "commune",
+      "displayName": "Xã Yên Xuân"
+    },
+    {
+      "name": "Quốc Oai",
+      "type": "commune",
+      "displayName": "Xã Quốc Oai"
+    },
+    {
+      "name": "Hưng Đạo",
+      "type": "commune",
+      "displayName": "Xã Hưng Đạo"
+    },
+    {
+      "name": "Kiều Phú",
+      "type": "commune",
+      "displayName": "Xã Kiều Phú"
+    },
+    {
+      "name": "Phú Cát",
+      "type": "commune",
+      "displayName": "Xã Phú Cát"
+    },
+    {
+      "name": "Hoài Đức",
+      "type": "commune",
+      "displayName": "Xã Hoài Đức"
+    },
+    {
+      "name": "Dương Hòa",
+      "type": "commune",
+      "displayName": "Xã Dương Hòa"
+    },
+    {
+      "name": "Sơn Đồng",
+      "type": "commune",
+      "displayName": "Xã Sơn Đồng"
+    },
+    {
+      "name": "An Khánh",
+      "type": "commune",
+      "displayName": "Xã An Khánh"
+    },
+    {
+      "name": "Đan Phượng",
+      "type": "commune",
+      "displayName": "Xã Đan Phượng"
+    },
+    {
+      "name": "Ô Diên",
+      "type": "commune",
+      "displayName": "Xã Ô Diên"
+    },
+    {
+      "name": "Liên Minh",
+      "type": "commune",
+      "displayName": "Xã Liên Minh"
+    },
+    {
+      "name": "Gia Lâm",
+      "type": "commune",
+      "displayName": "Xã Gia Lâm"
+    },
+    {
+      "name": "Thuận An",
+      "type": "commune",
+      "displayName": "Xã Thuận An"
+    },
+    {
+      "name": "Bát Tràng",
+      "type": "commune",
+      "displayName": "Xã Bát Tràng"
+    },
+    {
+      "name": "Phù Đổng",
+      "type": "commune",
+      "displayName": "Xã Phù Đổng"
+    },
+    {
+      "name": "Thư Lâm",
+      "type": "commune",
+      "displayName": "Xã Thư Lâm"
+    },
+    {
+      "name": "Đông Anh",
+      "type": "commune",
+      "displayName": "Xã Đông Anh"
+    },
+    {
+      "name": "Phúc Thịnh",
+      "type": "commune",
+      "displayName": "Xã Phúc Thịnh"
+    },
+    {
+      "name": "Thiên Lộc",
+      "type": "commune",
+      "displayName": "Xã Thiên Lộc"
+    },
+    {
+      "name": "Vĩnh Thanh",
+      "type": "commune",
+      "displayName": "Xã Vĩnh Thanh"
+    },
+    {
+      "name": "Mê Linh",
+      "type": "commune",
+      "displayName": "Xã Mê Linh"
+    },
+    {
+      "name": "Yên Lãng",
+      "type": "commune",
+      "displayName": "Xã Yên Lãng"
+    },
+    {
+      "name": "Tiến Thắng",
+      "type": "commune",
+      "displayName": "Xã Tiến Thắng"
+    },
+    {
+      "name": "Quang Minh",
+      "type": "commune",
+      "displayName": "Xã Quang Minh"
+    },
+    {
+      "name": "Sóc Sơn",
+      "type": "commune",
+      "displayName": "Xã Sóc Sơn"
+    },
+    {
+      "name": "Đa Phúc",
+      "type": "commune",
+      "displayName": "Xã Đa Phúc"
+    },
+    {
+      "name": "Nội Bài",
+      "type": "commune",
+      "displayName": "Xã Nội Bài"
+    },
+    {
+      "name": "Trung Giã",
+      "type": "commune",
+      "displayName": "Xã Trung Giã"
+    },
+    {
+      "name": "Kim Anh",
+      "type": "commune",
+      "displayName": "Xã Kim Anh"
+    }
+  ]
+}

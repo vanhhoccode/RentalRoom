@@ -7,22 +7,25 @@ export interface PropertyCardProps {
   imageUrl?: string;
   imageAlt?: string;
   title?: string;
+  price?: number; // Nhận thẳng price dạng số từ DB nếu có
   priceFormatted?: string;
   oldPriceFormatted?: string;
   area?: number | string;
-  address?: string;
+  address?: string; // Giữ nguyên prop address hiện tại
+  district?: string;
+  ward?: string;
   schoolProximity?: string;
-  status?: 'available' | 'rented';
+  status?: 'available' | 'rented' | 'Available' | 'Rented' | 'Pending' | 'Rejected' | string;
   statusText?: string;
   photoCount?: number;
   landlordName?: string;
   landlordAvatar?: string;
   verifiedHost?: boolean;
-  features?: string[];
+  features?: string[]; // Giữ nguyên prop features hiện tại
   discountText?: string;
   rentedTimeAgo?: string;
   variant?: 'search' | 'favorite' | 'similar';
-  onToggleFavorite?: () => Promise<void> | void; // Chấp nhận hàm bất đồng bộ
+  onToggleFavorite?: () => Promise<void> | void;
   onDelete?: () => void;
   onActionClick?: () => void;
   onContactClick?: () => void;
@@ -34,17 +37,20 @@ export default function PropertyCard({
   imageUrl,
   imageAlt,
   title,
+  price,
   priceFormatted,
   oldPriceFormatted,
   area,
   address,
+  district,
+  ward,
   schoolProximity,
-  status = 'available',
+  status = 'Available',
   statusText,
-  photoCount = 6,
-  landlordName = 'Chính chủ',
+  photoCount,
+  landlordName,
   landlordAvatar,
-  verifiedHost = true,
+  verifiedHost,
   features = [],
   discountText,
   rentedTimeAgo = 'Hôm qua',
@@ -58,8 +64,33 @@ export default function PropertyCard({
   const navigate = useNavigate();
   const [isFavLoading, setIsFavLoading] = useState(false);
 
-  const isAvailable = status === 'available';
-  const isRented = status === 'rented';
+  // Chuẩn hóa status (tránh lỗi case-sensitive)
+  const isAvailable = status.toLowerCase() === 'available';
+  const isRented = status.toLowerCase() === 'rented';
+
+  // Fallback ảnh
+  const finalImg = imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuBKe9QZcDH0lzkTSl-nLSODpVJ8EdJxTrsAa7POpFxGCS2MFIBy7XkWLmaXTVm0N0936jWfvPGXZyUmhh1F40_c5rws4O1tBSZAx8rVewiODyByjDGm5MLjuADhkR5kxWNox82BYtGkcCEfI7y37qVtRIlt4P91YNvjTAtxB8v_e_mBS475x-9fa3QgEn0JB1auTj0BpK6h-3D6NHjUMLo5nlhnT09xouI2FujXPZVSqNPrC7DMoeqf';
+
+  // Format Giá 
+  const displayPrice = price ? `${(price / 1000000).toFixed(1)} Triệu` : (priceFormatted || 'Thỏa thuận');
+
+  // Xử lý Địa điểm (ưu tiên ward + district, nếu không có thì lấy address truyền từ cha)
+  let displayAddress = '';
+  if (ward && district) displayAddress = `${ward}, ${district}`;
+  else displayAddress = address || 'Đang cập nhật địa chỉ';
+
+  // Xử lý Tiện ích (cắt 3 cái)
+  const displayFeatures = features.slice(0, 3);
+  const excessFeatures = features.length - 3;
+
+  // Render badge trạng thái ảnh
+  let badgeLabel = statusText;
+  if (!badgeLabel) {
+    if (status === 'Pending') badgeLabel = 'Chờ duyệt';
+    else if (status === 'Rejected') badgeLabel = 'Bị từ chối';
+    else if (status === 'Expired') badgeLabel = 'Hết hạn';
+    else badgeLabel = isAvailable ? 'Còn trống' : `Đã cho thuê (${rentedTimeAgo})`;
+  }
 
   return (
     <>
@@ -74,11 +105,13 @@ export default function PropertyCard({
       >
         <div className={styles.mediaHeader}>
           <img
-            src={imageUrl}
-            alt={imageAlt || title}
+            src={finalImg}
+            alt={imageAlt || title || 'Hình ảnh phòng'}
             className={`${styles.cardImage} ${isRented ? styles.imageRentedEffect : ''}`}
+            onError={(e) => { (e.target as HTMLImageElement).src = finalImg; }}
           />
 
+          {/* Badge Trạng thái */}
           {isAvailable ? (
             <div className={styles.badgeAvailable}>
               <span className="relative flex h-2.5 w-2.5">
@@ -86,14 +119,14 @@ export default function PropertyCard({
                 <span className={styles.staticDotAvailable}></span>
               </span>
               <span className={styles.statusTextAvailable}>
-                {statusText || 'Còn trống'}
+                {badgeLabel}
               </span>
             </div>
           ) : (
             <div className={styles.badgeRented}>
               <span className={styles.staticDotRented}></span>
               <span className={styles.statusTextRented}>
-                {statusText || `Đã cho thuê (${rentedTimeAgo})`}
+                {badgeLabel}
               </span>
             </div>
           )}
@@ -105,13 +138,13 @@ export default function PropertyCard({
             </div>
           )}
 
-          {/* Nút Yêu thích xử lý chặn event nhảy trang và chống spam */}
+          {/* Nút Yêu thích (Độc lập, không dính href) */}
           <button
             type="button"
             disabled={isFavLoading}
             onClick={async (e) => {
               e.preventDefault();
-              e.stopPropagation();
+              e.stopPropagation(); // Chặn click card
               if (!onToggleFavorite || isFavLoading) return;
 
               setIsFavLoading(true);
@@ -132,7 +165,8 @@ export default function PropertyCard({
             </span>
           </button>
 
-          {photoCount && (
+          {/* Badge 5 ảnh tự động lấy từ data thật */}
+          {photoCount != null && photoCount > 0 && (
             <div className={styles.photoCounter}>
               <span className={`material-symbols-outlined ${styles.cameraIcon}`}>photo_camera</span>
               <span>{photoCount} ảnh</span>
@@ -145,7 +179,7 @@ export default function PropertyCard({
             <div className={styles.priceAreaRow}>
               <div className={styles.priceWrapper}>
                 <span className={`${styles.currentPrice} ${isRented ? styles.priceRentedStyle : styles.priceNormalStyle}`}>
-                  {priceFormatted}
+                  {displayPrice}
                 </span>
                 <span className={styles.pricePeriod}>/tháng</span>
                 {oldPriceFormatted && (
@@ -161,7 +195,7 @@ export default function PropertyCard({
               )}
             </div>
 
-            <h3 className={`${styles.cardTitle} ${isRented ? styles.titleRentedStyle : styles.titleNormalStyle}`}>
+            <h3 className={`${styles.cardTitle} ${isRented ? styles.titleRentedStyle : styles.titleNormalStyle} line-clamp-2`}>
               {title}
             </h3>
 
@@ -170,8 +204,8 @@ export default function PropertyCard({
                 location_on
               </span>
               <div className={styles.addressTextWrapper}>
-                <span className={`${styles.addressMainText} ${isRented ? styles.addressMainRented : styles.addressMainNormal}`}>
-                  {address}
+                <span className={`${styles.addressMainText} ${isRented ? styles.addressMainRented : styles.addressMainNormal} line-clamp-1`}>
+                  {displayAddress}
                 </span>
                 {schoolProximity && (
                   <span className={styles.schoolProximityText}>
@@ -181,16 +215,30 @@ export default function PropertyCard({
               </div>
             </div>
 
-            {features.length > 0 && variant !== 'similar' && (
+            {/* Render tối đa 3 tiện ích + Số tiện ích thừa */}
+            {variant !== 'similar' && (
               <div className={styles.featuresContainer}>
-                {features.map((feature, idx) => (
-                  <span
-                    key={idx}
-                    className={`${styles.featureChip} ${isRented ? styles.featureChipRented : styles.featureChipNormal}`}
-                  >
-                    {feature}
+                {displayFeatures.length > 0 ? (
+                  <>
+                    {displayFeatures.map((feature, idx) => (
+                      <span
+                        key={idx}
+                        className={`${styles.featureChip} ${isRented ? styles.featureChipRented : styles.featureChipNormal}`}
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                    {excessFeatures > 0 && (
+                      <span className={`${styles.featureChip} ${isRented ? styles.featureChipRented : styles.featureChipNormal}`}>
+                        +{excessFeatures} tiện ích
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className={`${styles.featureChip} ${isRented ? styles.featureChipRented : styles.featureChipNormal} opacity-60`}>
+                    Chưa cập nhật
                   </span>
-                ))}
+                )}
               </div>
             )}
 
@@ -224,31 +272,22 @@ export default function PropertyCard({
           ) : (
             <div className={styles.standardFooter}>
               <div className={styles.landlordInfoWrapper}>
-                {landlordAvatar && (
-                  <img
-                    src={landlordAvatar}
-                    alt={landlordName}
-                    className={`${styles.landlordAvatar} ${isRented ? styles.avatarRented : ''}`}
-                  />
-                )}
                 <div className={styles.landlordTextCol}>
-                  <span className={`${styles.landlordName} ${isRented ? styles.landlordNameRented : styles.landlordNameNormal}`}>
-                    {landlordName}
-                  </span>
-                  <span className={`${styles.verifiedStatusRow} ${verifiedHost ? styles.verifiedGreen : styles.verifiedGray}`}>
-                    {verifiedHost && <span className={`material-symbols-outlined ${styles.verifiedIcon}`}>verified</span>}
-                    {verifiedHost ? 'Chính chủ xác thực' : (isRented ? 'Đã cho thuê' : 'Đang cập nhật')}
+                  <span className={`${styles.verifiedStatusRow} ${isAvailable ? styles.verifiedGreen : styles.verifiedGray}`}>
+                    {isAvailable && <span className={`material-symbols-outlined ${styles.verifiedIcon}`}>verified</span>}
+                    {isAvailable ? 'Tin đăng đã được duyệt' : 'Chờ kiểm duyệt'}
                   </span>
                 </div>
               </div>
 
+              {/* Thay nút Liên hệ bằng Xem chi tiết */}
               <button
                 type="button"
-                onClick={(e) => { e.stopPropagation(); if (onContactClick) onContactClick(); }}
+                onClick={(e) => { e.stopPropagation(); navigate(`/rooms/${id}`); }}
                 className={`${styles.contactBtn} ${isRented ? styles.contactBtnRented : styles.contactBtnNormal}`}
               >
-                <span className="material-symbols-outlined text-[16px]">call</span>
-                <span>Liên hệ</span>
+                <span>Xem chi tiết</span>
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </button>
             </div>
           )}

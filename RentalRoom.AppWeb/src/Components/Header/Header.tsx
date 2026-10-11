@@ -123,7 +123,7 @@ export default function Header({ onSearch, searchValue = '' }: HeaderProps) {
           <div className={styles.logoSearchSection}>
             <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className={styles.logoLink}>
               <img
-                alt="TroTot Logo"
+                alt=""
                 className={styles.logoImg}
                 src="https://lh3.googleusercontent.com/aida/AEtjO1VPcTtQxR4QtWjIQHbp7eMd99qNRyWgGLHTMl8oGnnqROKrU2K7Z19N-7dUgp9sjOeI03A008Hus-C0kyHwdMIuQmGHMxpUVJQ35GaWn3n06vqGx3fmcPH6G2Hu-kD3PhevVWhrnP-AwoDtgkUfwIrA3tv5VAuEvj6a8Hid3yBHabfdGkpYnI2CVL0kkVWCIRmo7k9_8hsAZBInwJM8r59vcNCfqb2qzZo1SXWpLZnJk8xRDTQrBk73XRM"
               />
@@ -193,15 +193,17 @@ export default function Header({ onSearch, searchValue = '' }: HeaderProps) {
           {/* ── Nav ── */}
           <nav className={styles.navMenu}>
             {[
-              { path: '/', label: 'Trang chủ' },
-              { path: '/favorites', label: 'Đã lưu' },
+              { path: '/', label: 'Trang chủ', icon: '' },
+              { path: '/favorites', label: 'Tin đã lưu', icon: 'favorite' },
+              { path: '/landlord/dashboard', label: 'Quản lý', icon: 'dashboard' },
             ].map((item) => (
               <a
                 key={item.path}
                 href={item.path}
                 onClick={(e) => { e.preventDefault(); navigate(item.path); }}
-                className={`${styles.navItem} ${styles.navItemInactive}`}
+                className={`${styles.navItem} flex items-center gap-1 ${styles.navItemInactive}`}
               >
+                {item.icon && <span className="material-symbols-outlined text-[18px]">{item.icon}</span>}
                 {item.label}
               </a>
             ))}

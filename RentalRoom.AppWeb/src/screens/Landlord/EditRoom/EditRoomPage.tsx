@@ -4,6 +4,9 @@ import LandlordSidebar from '../../../Components/LandLordSidebar/LandlordSidebar
 import { getCategories, updateRoom } from '../../../Services/roomService';
 import type { UpdateRoomRequestDto } from '../../../Dtos/Room/RoomDto';
 
+// Import Dữ liệu Tỉnh/Thành thực tế
+import hanoiData from '../../../Utils/hanoi-legacy-urban.json';
+
 interface AmenityResponse { id: number; name: string; }
 interface CategoryResponse { id: number; name: string; }
 
@@ -17,10 +20,10 @@ export default function EditRoomPage() {
         categoryId: 1, title: '', description: '', price: '', area: '', district: '', ward: '', addressDetail: '', amenityIds: [],
     });
 
-    // State lưu URL ảnh cũ (chỉ để hiển thị, không gây CORS)
+    // State lưu URL ảnh cũ
     const [existingImages, setExistingImages] = useState<string[]>([]);
 
-    // State lưu File ảnh mới nếu user muốn thay đổi
+    // State lưu File ảnh mới 
     const [images, setImages] = useState<File[]>([]);
     const [isImageChanged, setIsImageChanged] = useState(false);
 
@@ -57,6 +60,7 @@ export default function EditRoomPage() {
                 setAmenities(await amenitiesRes.json());
                 setCategories(categoriesData);
 
+                // Load dữ liệu cũ vào Form
                 setForm({
                     categoryId: roomData.categoryId || 1,
                     title: roomData.title,
@@ -69,7 +73,6 @@ export default function EditRoomPage() {
                     amenityIds: roomData.amenities?.map((a: any) => a.id) || [],
                 });
 
-                // Chỉ lưu URL để hiển thị thẻ <img>
                 if (roomData.images && roomData.images.length > 0) {
                     setExistingImages(roomData.images);
                 }
@@ -86,6 +89,18 @@ export default function EditRoomPage() {
 
     const handleChange = (field: keyof UpdateRoomRequestDto, value: string | number | number[]) => {
         setForm(prev => ({ ...prev, [field]: value }));
+    };
+
+    // Logic Cascading: Khi chọn Quận/Huyện mới thì phải Reset Phường/Xã
+    const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newDistrict = e.target.value;
+        const newWards = hanoiData.districts.find(d => d.name === newDistrict)?.wards || [];
+
+        setForm(prev => ({
+            ...prev,
+            district: newDistrict,
+            ward: newWards.length > 0 ? newWards[0].name : ''
+        }));
     };
 
     const handleAmenityToggle = (amenityId: number) => {
@@ -128,6 +143,11 @@ export default function EditRoomPage() {
             setIsSubmitting(false);
         }
     };
+
+    // Lấy danh sách phường dựa trên Quận/Huyện hiện tại của Form
+    const availableWards = form.district
+        ? hanoiData.districts.find(d => d.name === form.district)?.wards || []
+        : [];
 
     if (loadingData) return <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center text-[#00685f]"><span className="material-symbols-outlined animate-spin text-[40px]">progress_activity</span></div>;
     if (apiError) return <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center text-[#ba1a1a]">{apiError}</div>;
@@ -195,14 +215,35 @@ export default function EditRoomPage() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-[14px] font-semibold">Quận / Huyện</label>
-                                            <select value={form.district} onChange={e => handleChange('district', e.target.value)} className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] outline-none">
-                                                <option value="Quận Cầu Giấy">Quận Cầu Giấy</option><option value="Quận Đống Đa">Quận Đống Đa</option><option value="Quận Thanh Xuân">Quận Thanh Xuân</option>
+                                            <select
+                                                value={form.district}
+                                                onChange={handleDistrictChange}
+                                                className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] outline-none"
+                                            >
+                                                {/* Kiểm tra nếu district cũ từ DB không có trong JSON thì render thêm option đó để không lỗi form */}
+                                                {!hanoiData.districts.some(d => d.name === form.district) && form.district && (
+                                                    <option value={form.district}>{form.district}</option>
+                                                )}
+                                                {hanoiData.districts.map(d => (
+                                                    <option key={d.code} value={d.name}>{d.name}</option>
+                                                ))}
                                             </select>
                                         </div>
                                         <div className="flex flex-col gap-1.5">
                                             <label className="text-[14px] font-semibold">Phường / Xã</label>
-                                            <select value={form.ward} onChange={e => handleChange('ward', e.target.value)} className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] outline-none">
-                                                <option value="Phường Dịch Vọng Hậu">Phường Dịch Vọng Hậu</option><option value="Phường Mai Dịch">Phường Mai Dịch</option>
+                                            <select
+                                                value={form.ward}
+                                                onChange={e => handleChange('ward', e.target.value)}
+                                                className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] outline-none"
+                                                disabled={!form.district}
+                                            >
+                                                {/* Kiểm tra nếu ward cũ từ DB không có trong JSON thì render thêm option đó */}
+                                                {!availableWards.some(w => w.name === form.ward) && form.ward && (
+                                                    <option value={form.ward}>{form.ward}</option>
+                                                )}
+                                                {availableWards.map(w => (
+                                                    <option key={w.code} value={w.name}>{w.name}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
@@ -246,7 +287,7 @@ export default function EditRoomPage() {
                                     </div>
                                 </div>
 
-                                {/* 5. HÌNH ẢNH (UX Mới - Không CORS) */}
+                                {/* 5. HÌNH ẢNH */}
                                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#e5eeff]">
                                     <div className="flex items-center gap-2 mb-6 border-b border-[#e5eeff] pb-4">
                                         <span className="w-8 h-8 rounded-full bg-[#00685f] text-white flex items-center justify-center font-bold">5</span>
@@ -254,7 +295,6 @@ export default function EditRoomPage() {
                                     </div>
 
                                     {!isImageChanged ? (
-                                        // Trạng thái 1: Giữ nguyên ảnh cũ (Chỉ hiển thị, không lỗi CORS)
                                         <div>
                                             <div className="flex items-center justify-between mb-4">
                                                 <p className="text-[14px] text-[#3d4947] font-semibold">Bộ ảnh hiện tại ({existingImages.length} ảnh)</p>
@@ -278,7 +318,6 @@ export default function EditRoomPage() {
                                             )}
                                         </div>
                                     ) : (
-                                        // Trạng thái 2: Xóa ảnh cũ, Upload bộ ảnh mới
                                         <div>
                                             <div className="flex items-center justify-between mb-4">
                                                 <p className="text-[14px] text-[#b28900] font-semibold flex items-center gap-1">

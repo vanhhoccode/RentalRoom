@@ -43,13 +43,15 @@ export default function MyListingsPage() {
         }
     };
 
-    // --- 1. Tính toán KPIs ---
+    // --- 1. Tính toán KPIs bao gồm Rejected và Expired ---
     const summary = useMemo(() => {
         return {
             total: rooms.length,
             pending: rooms.filter(r => r.status === 'Pending').length,
             available: rooms.filter(r => r.status === 'Available').length,
             rented: rooms.filter(r => r.status === 'Rented').length,
+            rejected: rooms.filter(r => r.status === 'Rejected').length,
+            expired: rooms.filter(r => r.status === 'Expired').length,
         };
     }, [rooms]);
 
@@ -57,31 +59,38 @@ export default function MyListingsPage() {
     const filteredAndSortedRooms = useMemo(() => {
         let result = [...rooms];
 
+        // Lọc theo Status
         if (statusFilter !== 'All') {
             result = result.filter(r => r.status === statusFilter);
         }
 
+        // Lọc theo Search Term
         if (searchTerm.trim() !== '') {
             result = result.filter(r => r.title.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
-        // result.sort((a, b) => {
-        //     const dateA = new Date(a.createdAt || a.date).getTime();
-        //     const dateB = new Date(b.createdAt || b.date).getTime();
-        //     return sortOrder === 'Newest' ? dateB - dateA : dateA - dateB;
-        // });
+        // Sắp xếp theo Thời gian (Mới nhất / Cũ nhất)
+        result.sort((a, b) => {
+            const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+
+            if (sortOrder === 'Newest') {
+                return timeB - timeA; // Giảm dần
+            } else {
+                return timeA - timeB; // Tăng dần
+            }
+        });
 
         return result;
     }, [rooms, statusFilter, searchTerm, sortOrder]);
 
-    console.log("Danh sách phòng sau khi lọc:", filteredAndSortedRooms);
     const totalPages = Math.ceil(filteredAndSortedRooms.length / ITEMS_PER_PAGE);
     const currentData = filteredAndSortedRooms.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
     );
 
-    // Reset page khi filter thay đổi
+    // Reset page khi filter hoặc sort thay đổi
     useEffect(() => { setCurrentPage(1); }, [searchTerm, statusFilter, sortOrder]);
 
     // --- 3. Handlers ---
@@ -108,24 +117,82 @@ export default function MyListingsPage() {
     };
 
     const handleToggleStatus = async (id: string | number) => {
-        const room = rooms.find(r => r.id === id);
-        if (!room) return;
-        if (room.status === 'Pending') {
-            alert('Tin đang chờ duyệt, bạn không thể đổi trạng thái.');
+        // Tìm phòng, tránh lỗi nếu id giữa API và frontend khác kiểu dữ liệu
+        const room = rooms.find(r => String(r.id) === String(id));
+        if (!room) {
+            alert('Không tìm thấy tin đăng phòng trọ.');
             return;
         }
-        if (room.status === 'Available') {
-            if (window.confirm('Xác nhận phòng này đã được cho thuê? Trạng thái sẽ chuyển thành "Đã cho thuê".')) {
-                try {
-                    await changeRoomStatus(id, 'Rented');
-                    setRooms(prev => prev.map(r => r.id === id ? { ...r, status: 'Rented' } : r));
-                } catch (err: any) {
-                    alert(err.message);
-                }
-            }
-        } else if (room.status === 'Rented') {
-            alert('Chỉ Admin hoặc Hệ thống mới có thể mở lại tin "Đã cho thuê". Vui lòng liên hệ BQT.');
+        // 1. Tin đang chờ duyệt
+        if (room.status === 'Pending') {
+            alert(
+                'Tin đang chờ duyệt, bạn không thể đổi trạng thái. ' +
+                'Vui lòng đợi Admin xử lý.'
+            );
+            return;
         }
+        // 2. Phòng còn trống -> Đã cho thuê
+        if (room.status === 'Available') {
+            const confirmed = window.confirm(
+                'Xác nhận phòng này đã có người thuê? ' +
+                'Trạng thái sẽ chuyển thành "Đã cho thuê".'
+            );
+            if (!confirmed) return;
+            try {
+                await changeRoomStatus(id, 'Rented');
+
+                setRooms(prev =>
+                    prev.map(r =>
+                        String(r.id) === String(id)
+                            ? { ...r, status: 'Rented' }
+                            : r
+                    )
+                );
+                alert('Đã cập nhật phòng sang trạng thái Đã cho thuê.');
+            } catch (err: any) {
+                alert(
+                    err?.message ||
+                    'Không thể cập nhật trạng thái phòng. Vui lòng thử lại.'
+                );
+            }
+            return;
+        }
+        // 3. Đã cho thuê -> Còn trống
+        if (room.status === 'Rented') {
+            const confirmed = window.confirm(
+                'Xác nhận người thuê đã chuyển đi và phòng hiện đã trống? ' +
+                'Trạng thái sẽ chuyển về "Còn trống" và tin đăng có thể ' +
+                'hiển thị trở lại cho người tìm phòng.'
+            );
+            if (!confirmed) return;
+            try {
+                await changeRoomStatus(id, 'Available');
+                setRooms(prev =>
+                    prev.map(r =>
+                        String(r.id) === String(id)
+                            ? { ...r, status: 'Available' }
+                            : r
+                    )
+                );
+                alert('Đã cập nhật phòng về trạng thái Còn trống.');
+            } catch (err: any) {
+                alert(
+                    err?.message ||
+                    'Không thể cập nhật trạng thái phòng. Vui lòng thử lại.'
+                );
+            }
+            return;
+        }
+        // 4. Tin bị từ chối hoặc hết hạn
+        if (room.status === 'Rejected' || room.status === 'Expired') {
+            alert(
+                'Không thể trực tiếp đổi trạng thái tin đã bị từ chối ' +
+                'hoặc hết hạn. Vui lòng chỉnh sửa tin và gửi Admin duyệt lại.'
+            );
+            return;
+        }
+        // 5. Trạng thái ngoài nghiệp vụ được hỗ trợ
+        alert('Trạng thái phòng không hợp lệ hoặc chưa được hỗ trợ.');
     };
 
     return (
@@ -167,66 +234,56 @@ export default function MyListingsPage() {
                     </div>
 
                     {/* KPI Grid */}
-                    <div className={styles.kpiGrid}>
-                        <div className={styles.kpiCard}>
-                            <div className={styles.kpiHeader}>
-                                <div className={`${styles.kpiIconWrapper} ${styles.iconTotal}`}>
-                                    <span className="material-symbols-outlined text-[24px]">apartment</span>
-                                </div>
-                                <span className={`${styles.kpiBadge} ${styles.badgeTotal}`}>
-                                    Cập nhật liên tục
-                                </span>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#eff4ff] text-[#006398] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">apartment</span>
                             </div>
-                            <div>
-                                <div className={styles.kpiLabel}>Tổng số phòng</div>
-                                <div className={styles.kpiValue}>{summary.total} <span className={styles.kpiSub}>phòng</span></div>
-                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Tổng phòng</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.total}</span>
                         </div>
 
-                        <div className={styles.kpiCard}>
-                            <div className={styles.kpiHeader}>
-                                <div className={`${styles.kpiIconWrapper} ${styles.iconAvailable}`}>
-                                    <span className="material-symbols-outlined text-[24px]">check_circle</span>
-                                </div>
-                                <span className={`${styles.kpiBadge} ${styles.badgeAvailable}`}>
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#006947] animate-pulse"></span> Sẵn sàng đón khách
-                                </span>
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#dcfce7] text-[#065f46] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">check_circle</span>
                             </div>
-                            <div>
-                                <div className={styles.kpiLabel}>Đang cho thuê (Available)</div>
-                                <div className={styles.kpiValue}>{summary.available} <span className={`${styles.kpiSub} text-[#006947] font-semibold`}>đang mở</span></div>
-                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Có sẵn</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.available}</span>
                         </div>
 
-                        <div className={styles.kpiCard}>
-                            <div className={styles.kpiHeader}>
-                                <div className={`${styles.kpiIconWrapper} ${styles.iconRented}`}>
-                                    <span className="material-symbols-outlined text-[24px]">key</span>
-                                </div>
-                                <span className={`${styles.kpiBadge} ${styles.badgeRented}`}>
-                                    Đã chốt hợp đồng
-                                </span>
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#cce5ff] text-[#006398] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">key</span>
                             </div>
-                            <div>
-                                <div className={styles.kpiLabel}>Đã cho thuê (Rented)</div>
-                                <div className={styles.kpiValue}>{summary.rented} <span className={styles.kpiSub}>phòng kín</span></div>
-                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Đã cho thuê</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.rented}</span>
                         </div>
 
-                        <div className={styles.kpiCard}>
-                            <div className={styles.kpiHeader}>
-                                <div className={`${styles.kpiIconWrapper} ${styles.iconPending}`}>
-                                    <span className="material-symbols-outlined text-[24px]">hourglass_top</span>
-                                </div>
-                                <span className={`${styles.kpiBadge} ${styles.badgePending}`}>
-                                    BQT đang duyệt hồ sơ
-                                </span>
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#fef3c7] text-[#92400e] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">hourglass_top</span>
                             </div>
-                            <div>
-                                <div className={styles.kpiLabel}>Chờ duyệt (Pending)</div>
-                                <div className={styles.kpiValue}>{summary.pending} <span className={`${styles.kpiSub} text-[#ba1a1a] font-semibold`}>tin chờ</span></div>
-                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Chờ duyệt</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.pending}</span>
                         </div>
+
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#ffdad6] text-[#93000a] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">block</span>
+                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Bị từ chối</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.rejected}</span>
+                        </div>
+
+                        <div className="bg-white p-3 rounded-2xl shadow-sm border border-[#eaf1ff] flex flex-col items-start gap-1">
+                            <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] flex items-center justify-center mb-1">
+                                <span className="material-symbols-outlined text-[18px]">timer_off</span>
+                            </div>
+                            <span className="text-[11px] font-semibold text-[#6d7a77] uppercase tracking-wide">Hết hạn</span>
+                            <span className="text-[20px] font-bold text-[#0b1c30]">{summary.expired}</span>
+                        </div>
+
                     </div>
 
                     {/* Filter Bar */}
@@ -241,24 +298,28 @@ export default function MyListingsPage() {
                                 className={styles.searchInput}
                             />
                         </div>
-                        <div className={styles.filterTabs}>
-                            {['All', 'Available', 'Rented', 'Pending'].map(status => (
+                        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 items-center flex-1">
+                            {[
+                                { status: 'All', label: 'Tất cả', count: summary.total },
+                                { status: 'Available', label: 'Có sẵn', count: summary.available },
+                                { status: 'Rented', label: 'Đã cho thuê', count: summary.rented },
+                                { status: 'Pending', label: 'Chờ duyệt', count: summary.pending },
+                                { status: 'Rejected', label: 'Bị từ chối', count: summary.rejected },
+                                { status: 'Expired', label: 'Hết hạn', count: summary.expired },
+                            ].map(item => (
                                 <button
-                                    key={status}
-                                    onClick={() => setStatusFilter(status)}
-                                    className={`${styles.tabBtn} ${statusFilter === status ? styles.tabActive : styles.tabInactive}`}
+                                    key={item.status}
+                                    onClick={() => setStatusFilter(item.status)}
+                                    className={`${styles.tabBtn} ${statusFilter === item.status ? styles.tabActive : styles.tabInactive} whitespace-nowrap`}
                                 >
-                                    {status === 'All' ? `Tất cả (${summary.total})` :
-                                        status === 'Available' ? `Đang cho thuê (${summary.available})` :
-                                            status === 'Rented' ? `Đã cho thuê (${summary.rented})` :
-                                                `Chờ duyệt (${summary.pending})`}
+                                    {item.label} ({item.count})
                                 </button>
                             ))}
                         </div>
                         <select
                             value={sortOrder}
                             onChange={(e) => setSortOrder(e.target.value)}
-                            className={styles.sortSelect}
+                            className="bg-white border border-[#outline-variant]/30 rounded-xl px-3 py-2 text-[13px] font-semibold text-[#0b1c30] outline-none hover:border-[#00685f] focus:border-[#00685f] cursor-pointer shadow-sm ml-auto shrink-0 transition-colors"
                         >
                             <option value="Newest">Mới nhất trước</option>
                             <option value="Oldest">Cũ nhất trước</option>
@@ -360,7 +421,6 @@ export default function MyListingsPage() {
                             Liên hệ hỗ trợ viên
                         </button>
                     </div>
-
                 </main>
             </div>
         </div>

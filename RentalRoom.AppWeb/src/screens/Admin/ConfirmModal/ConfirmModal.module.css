@@ -1,0 +1,163 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(11, 28, 48, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 32rem; /* max-w-lg */
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eaf1ff;
+  margin-bottom: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconBox {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBoxError {
+  background-color: #ffdad6;
+  color: #ba1a1a;
+}
+.iconBoxPrimary {
+  background-color: #e5eeff;
+  color: #00685f;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b1c30;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #6d7a77;
+  margin-top: 0.25rem;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #6d7a77;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.closeBtn:hover {
+  background-color: #e5eeff;
+}
+
+.body {
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  color: #3d4947;
+  line-height: 1.5;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eaf1ff;
+}
+
+.btnCancel {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #f8f9ff;
+  color: #3d4947;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnCancel:hover {
+  background-color: #eaf1ff;
+}
+
+.btnConfirm {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.btnConfirmError {
+  background-color: #ba1a1a;
+}
+.btnConfirmError:hover {
+  opacity: 0.9;
+}
+
+.btnConfirmPrimary {
+  background-color: #00685f;
+}
+.btnConfirmPrimary:hover {
+  background-color: #008378;
+}

@@ -5,7 +5,9 @@ public class Room
     public int Id { get; set; }
 
     public int LandlordId { get; set; }
-
+    public string? LandlordName { get; set; }
+    public string? LandlordPhone { get; set; }
+   
     public int CategoryId { get; set; }
 
     public string Title { get; set; } = string.Empty;
@@ -35,4 +37,7 @@ public class Room
     public bool IsDeleted { get; set; }
     public string? ImageUrl { get; set; }
     public string? CategoryName { get; set; }
+    public string? RejectReason { get; set; }
+    public List<string> Amenities { get; set; } = new();
+    public int ImageCount { get; set; }
 }

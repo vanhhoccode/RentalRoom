@@ -24,20 +24,20 @@ export default function AdminApprovePage() {
 
     // Load Data
     useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        // const token = localStorage.getItem('accessToken');
+        // const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-        if (!token) {
-            alert("Vui lòng đăng nhập.");
-            navigate('/login');
-            return;
-        }
-        if (user?.roleCode !== 'ADMIN') {
-            alert("Chỉ Admin mới có quyền truy cập trang này.");
-            navigate('/');
-            return;
-        }
-        fetchData();
+        // if (!token) {
+        //     alert("Vui lòng đăng nhập.");
+        //     navigate('/login');
+        //     return;
+        // }
+        // if (user?.roleCode !== 'ADMIN') {
+        //     alert("Chỉ Admin mới có quyền truy cập trang này.");
+        //     navigate('/');
+        //     return;
+        // }
+        // fetchData();
     }, [navigate]);
 
     const fetchData = async () => {

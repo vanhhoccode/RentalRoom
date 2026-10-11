@@ -310,4 +310,129 @@ public class AuthBiz
             Token = token
         };
     }
+
+    public async Task<UserProfileResponse> GetMyProfileAsync(int userId)
+    {
+        if (userId <= 0)
+        {
+            throw new AppException("UNAUTHORIZED", "Không xác định được tài khoản đăng nhập.", 401);
+        }
+
+        var profile = await _userDAO.GetProfileByIdAsync(userId);
+
+        if (profile == null)
+        {
+            throw new AppException("USER_NOT_FOUND", "Không tìm thấy tài khoản.", 404);
+        }
+
+        if (!profile.IsActive)
+        {
+            throw new AppException("ACCOUNT_DISABLED", "Tài khoản đã bị khóa.", 403);
+        }
+
+        return new UserProfileResponse
+        {
+            UserId = profile.Id,
+            Username = profile.Username,
+            Email = profile.Email,
+            FullName = profile.FullName,
+            Phone = profile.Phone,
+            RoleCode = profile.RoleCode
+        };
+    }
+
+    public async Task<string> UpdateMyPhoneAsync(int userId, UpdatePhoneRequest request)
+    {
+        if (userId <= 0)
+        {
+            throw new AppException("UNAUTHORIZED", "Không xác định được tài khoản đăng nhập.", 401);
+        }
+
+        if (request == null || string.IsNullOrWhiteSpace(request.Phone))
+        {
+            throw new AppException("PHONE_REQUIRED", "Số điện thoại không được để trống.", 400);
+        }
+
+        var phone = request.Phone.Trim();
+        if (!Regex.IsMatch(phone, @"^0\d{9}$"))
+        {
+            throw new AppException("INVALID_PHONE_FORMAT", "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0.", 400);
+        }
+
+        if (await _userDAO.ExistsByPhoneForOtherUserAsync(phone, userId))
+        {
+            throw new AppException("PHONE_EXISTS", "Số điện thoại đã được tài khoản khác sử dụng.", 409);
+        }
+
+        var updated = await _userDAO.UpdatePhoneAsync(userId, phone);
+        if (!updated)
+        {
+            throw new AppException("ACCOUNT_NOT_FOUND_OR_DISABLED", "Không tìm thấy tài khoản hoặc tài khoản đã bị khóa.", 403);
+        }
+
+        return phone;
+    }
+
+    public async Task ChangeMyPasswordAsync(int userId, ChangePasswordRequest request)
+    {
+        if (userId <= 0)
+        {
+            throw new AppException("UNAUTHORIZED", "Không xác định được tài khoản đăng nhập.", 401);
+        }
+
+        if (request == null)
+        {
+            throw new AppException("INVALID_REQUEST", "Dữ liệu đổi mật khẩu không hợp lệ.", 400);
+        }
+
+        if (string.IsNullOrWhiteSpace(request.CurrentPassword))
+        {
+            throw new AppException("CURRENT_PASSWORD_REQUIRED", "Vui lòng nhập mật khẩu hiện tại.", 400);
+        }
+
+        if (string.IsNullOrWhiteSpace(request.NewPassword) || request.NewPassword.Length < 6)
+        {
+            throw new AppException("NEW_PASSWORD_INVALID", "Mật khẩu mới phải có ít nhất 6 ký tự.", 400);
+        }
+
+        if (string.IsNullOrWhiteSpace(request.ConfirmNewPassword))
+        {
+            throw new AppException("PASSWORD_CONFIRM_REQUIRED", "Vui lòng xác nhận mật khẩu mới.", 400);
+        }
+
+        if (!string.Equals(request.NewPassword, request.ConfirmNewPassword, StringComparison.Ordinal))
+        {
+            throw new AppException("PASSWORD_CONFIRM_MISMATCH", "Mật khẩu mới và phần xác nhận không khớp.", 400);
+        }
+
+        if (string.Equals(request.CurrentPassword, request.NewPassword, StringComparison.Ordinal))
+        {
+            throw new AppException("PASSWORD_UNCHANGED", "Mật khẩu mới phải khác mật khẩu hiện tại.", 400);
+        }
+
+        var passwordInfo = await _userDAO.GetPasswordInfoByIdAsync(userId);
+        if (passwordInfo == null)
+        {
+            throw new AppException("USER_NOT_FOUND", "Không tìm thấy tài khoản.", 404);
+        }
+
+        if (!passwordInfo.Value.IsActive)
+        {
+            throw new AppException("ACCOUNT_DISABLED", "Tài khoản đã bị khóa.", 403);
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, passwordInfo.Value.PasswordHash))
+        {
+            throw new AppException("CURRENT_PASSWORD_INVALID", "Mật khẩu hiện tại không đúng.", 400);
+        }
+
+        var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+        var updated = await _userDAO.UpdatePasswordHashAsync(userId, newPasswordHash);
+
+        if (!updated)
+        {
+            throw new AppException("PASSWORD_CHANGE_FAILED", "Không thể cập nhật mật khẩu. Vui lòng thử lại.", 500);
+        }
+    }
+
 }

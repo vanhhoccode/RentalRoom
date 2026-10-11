@@ -25,7 +25,7 @@ export default function LandlordSidebar() {
                     <img
                         className={styles.logoImg}
                         src="https://lh3.googleusercontent.com/aida/AEtjO1Vqgh5ZAo67JJfGUCcKBai0hvtZ0xgZAVgRLCPW2O5bVaTP_D7GfFNGnKDGoIxU7DSjVMFGqIUB7zqSifvVZohNIq4sJw_dIRNY0fyhOXj_PVDs57eLcO4Cdf8AH8X37LKBqqk4fVAhfvWOQzO4JCkNZhFOJbJd1wNSoh4KcyluV8d8mwx7LrVTJLIrTJVKBmOK5cH47VpcKgpRh8EujRnNf6WRsfxoAh_rsGZclY07EGgHvntB5lx7EuA"
-                        alt="TroTot Logo"
+                        alt=""
                     />
                     <span className={styles.brandName}>TroTot.vn</span>
                     <span className={styles.roleBadge}>Chủ trọ</span>

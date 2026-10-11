@@ -7,6 +7,7 @@ using System.Text;
 using RentalRoom.Api.Common.Auth;
 using Microsoft.OpenApi.Models;
 using RentalRoom.Api.Common.Exceptions;
+using RentalRoom.Api.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -66,6 +67,7 @@ builder.Services.AddScoped<FavoriteBiz>();
 builder.Services.AddScoped<ReportDAO>();
 builder.Services.AddScoped<ReportBiz>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddHostedService<RoomExpirationBackgroundService>();
 
 // Cấu hình Swagger (Đã gộp lại cho chuẩn, xóa dòng bị lặp)
 builder.Services.AddSwaggerGen(options =>

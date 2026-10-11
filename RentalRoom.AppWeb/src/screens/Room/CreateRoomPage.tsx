@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// Thay thế Header/Footer bằng Sidebar của Chủ trọ
+import { useNavigate } from 'react-router-dom';
 import LandlordSidebar from '../../Components/LandLordSidebar/LandlordSidebar';
 import { createRoom, getCategories } from '../../Services/roomService';
 import type { CreateRoomRequestDto } from '../../Dtos/Room/RoomDto';
 import styles from './CreateRoomPage.module.css';
+
+// Import Dữ liệu Tỉnh/Thành thực tế
+import hanoiData from '../../Utils/hanoi-legacy-urban.json';
 
 interface AmenityResponse {
   id: number;
@@ -16,14 +19,15 @@ interface CategoryResponse {
 }
 
 export default function CreateRoomPage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState<CreateRoomRequestDto>({
     categoryId: 1,
     title: '',
     description: '',
     price: '',
     area: '',
-    district: 'Quận Cầu Giấy',
-    ward: 'Phường Dịch Vọng Hậu',
+    district: hanoiData.districts[0]?.name || '',
+    ward: hanoiData.districts[0]?.wards[0]?.name || '',
     addressDetail: '',
     amenityIds: [],
   });
@@ -31,7 +35,6 @@ export default function CreateRoomPage() {
   const [images, setImages] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // States quản lý API Tiện ích & Loại hình
   const [amenities, setAmenities] = useState<AmenityResponse[]>([]);
   const [categories, setCategories] = useState<CategoryResponse[]>([]);
   const [loadingData, setLoadingData] = useState(true);
@@ -43,7 +46,6 @@ export default function CreateRoomPage() {
         setLoadingData(true);
         setApiError(null);
 
-        // Gọi song song 2 API để tiết kiệm thời gian chờ
         const [amenitiesRes, categoriesData] = await Promise.all([
           fetch('https://localhost:7188/api/amenities'),
           getCategories()
@@ -55,7 +57,6 @@ export default function CreateRoomPage() {
         setAmenities(amenitiesData);
         setCategories(categoriesData);
 
-        // Tự động set categoryId mặc định là item đầu tiên từ DB nếu form chưa chọn
         if (categoriesData && categoriesData.length > 0) {
           setForm(prev => ({ ...prev, categoryId: categoriesData[0].id }));
         }
@@ -75,6 +76,18 @@ export default function CreateRoomPage() {
     value: string | number | number[],
   ) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Logic Cascading: Đổi Quận thì Phường tự động reset về phường đầu tiên của quận đó
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newDistrict = e.target.value;
+    const newWards = hanoiData.districts.find(d => d.name === newDistrict)?.wards || [];
+
+    setForm(prev => ({
+      ...prev,
+      district: newDistrict,
+      ward: newWards.length > 0 ? newWards[0].name : ''
+    }));
   };
 
   const handleAmenityToggle = (id: number) => {
@@ -106,9 +119,8 @@ export default function CreateRoomPage() {
     try {
       setIsSubmitting(true);
       const result = await createRoom(form, images);
-      alert('Tạo phòng thành công!');
-      console.log('API response:', result);
-      // TODO: Navigate về trang quản lý
+      // Chuyển hướng về trang chi tiết phòng vừa đăng
+      navigate(`/landlord/listings/${result.roomId}`);
     } catch (error) {
       console.error(error);
       alert(error instanceof Error ? error.message : 'Lỗi kết nối đến server. Vui lòng thử lại.');
@@ -119,27 +131,26 @@ export default function CreateRoomPage() {
 
   const getCategoryIcon = (id: number) => {
     switch (id) {
-      case 1: return 'apartment';     // Chung cư mini / Studio
-      case 2: return 'meeting_room';  // Khép kín
-      case 3: return 'domain';        // Nguyên căn
-      case 4: return 'group';         // Ở ghép
-      default: return 'real_estate_agent'; // Icon mặc định
+      case 1: return 'apartment';
+      case 2: return 'meeting_room';
+      case 3: return 'domain';
+      case 4: return 'group';
+      default: return 'real_estate_agent';
     }
   };
 
-  return (
-    // Lớp nền tổng của trang Chủ trọ
-    <div className="bg-[#f8f9ff] font-['Be_Vietnam_Pro'] text-[#0b1c30] antialiased min-h-screen flex flex-col">
+  // Lấy danh sách phường dựa trên Quận/Huyện đang chọn
+  const availableWards = form.district
+    ? hanoiData.districts.find(d => d.name === form.district)?.wards || []
+    : [];
 
-      {/* 1. Gọi thanh Sidebar bên trái */}
+  return (
+    <div className="bg-[#f8f9ff] font-['Be_Vietnam_Pro'] text-[#0b1c30] antialiased min-h-screen flex flex-col">
       <LandlordSidebar />
 
-      {/* 2. Đẩy nội dung chính sang phải bằng class pl-64 */}
       <div className="pl-64 flex flex-col min-h-screen w-full">
         <main className="w-full flex-1 p-6 sm:p-8">
-
           <div className="max-w-[1200px] mx-auto w-full">
-            {/* Header của form đăng tin */}
             <div className="flex items-center gap-2 mb-6 pb-2">
               <span className="material-symbols-outlined text-[32px] text-[#00685f]">post_add</span>
               <h1 className="text-[24px] sm:text-[28px] font-bold font-['Plus_Jakarta_Sans'] text-[#0b1c30]">
@@ -149,7 +160,6 @@ export default function CreateRoomPage() {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-              {/* CỘT TRÁI (FORM NHẬP LIỆU) */}
               <div className="lg:col-span-8 flex flex-col gap-6">
 
                 {/* 1. THÔNG TIN CƠ BẢN */}
@@ -223,11 +233,11 @@ export default function CreateRoomPage() {
                       <select
                         className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] border-none outline-none focus:ring-2 focus:ring-[#00685f]"
                         value={form.district}
-                        onChange={(e) => handleChange('district', e.target.value)}
+                        onChange={handleDistrictChange}
                       >
-                        <option value="Quận Cầu Giấy">Quận Cầu Giấy</option>
-                        <option value="Quận Đống Đa">Quận Đống Đa</option>
-                        <option value="Quận Thanh Xuân">Quận Thanh Xuân</option>
+                        {hanoiData.districts.map(d => (
+                          <option key={d.code} value={d.name}>{d.name}</option>
+                        ))}
                       </select>
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -236,10 +246,11 @@ export default function CreateRoomPage() {
                         className="w-full px-4 py-2.5 rounded-xl bg-[#eff4ff] border-none outline-none focus:ring-2 focus:ring-[#00685f]"
                         value={form.ward}
                         onChange={(e) => handleChange('ward', e.target.value)}
+                        disabled={!form.district}
                       >
-                        <option value="Phường Dịch Vọng Hậu">Phường Dịch Vọng Hậu</option>
-                        <option value="Phường Quan Hoa">Phường Quan Hoa</option>
-                        <option value="Phường Mai Dịch">Phường Mai Dịch</option>
+                        {availableWards.map(w => (
+                          <option key={w.code} value={w.name}>{w.name}</option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -371,7 +382,6 @@ export default function CreateRoomPage() {
 
               {/* CỘT PHẢI (PREVIEW & ACTION) */}
               <aside className="lg:col-span-4">
-                {/* Đã xóa class sticky top-24 do không còn Header cố định, thay bằng top-6 cho gọn */}
                 <div className="sticky top-6 flex flex-col gap-6">
 
                   <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#e5eeff] flex flex-col gap-4">
@@ -426,10 +436,8 @@ export default function CreateRoomPage() {
                     <span className="text-[16px]">{isSubmitting ? 'Hệ thống đang lưu...' : 'Xác nhận Đăng tin ngay'}</span>
                     {!isSubmitting && <span className="material-symbols-outlined text-[20px]">send</span>}
                   </button>
-
                 </div>
               </aside>
-
             </form>
           </div>
         </main>

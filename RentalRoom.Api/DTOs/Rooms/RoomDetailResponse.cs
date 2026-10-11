@@ -17,4 +17,8 @@ public class RoomDetailResponse
     public DateTime CreatedAt { get; set; }
     public List<string> Images { get; set; } = new();
     public List<AmenityResponse> Amenities { get; set; } = new();
+    public string? LandlordName { get; set; }
+    public string? LandlordPhone { get; set; }
+    public bool HasReported { get; set; }
+    public string? RejectReason { get; set; }
 }

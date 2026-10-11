@@ -90,6 +90,17 @@ public class ReportBiz
             Status = "Pending",
             CreatedAt = DateTime.Now
         };
+        var alreadyReported = await _reportDAO.ExistsAsync(
+    tenantId,
+    request.RoomId);
+
+        if (alreadyReported)
+        {
+            throw new AppException(
+                "REPORT_ALREADY_EXISTS",
+                "Bạn đã báo cáo tin đăng này trước đó.",
+                400);
+        }
 
         return await _reportDAO.InsertAsync(report);
     }

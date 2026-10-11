@@ -1,0 +1,222 @@
+.sidebarContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 288px; /* w-72 */
+  background-color: #ffffff; /* surface-container-lowest */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoArea {
+  height: 80px; /* h-20 */
+  padding: 0 1.5rem; /* px-space-lg */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-space-sm */
+}
+
+.logoImage {
+  height: 2rem; /* h-8 */
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px; /* text-headline-sm */
+  line-height: 24px;
+  font-weight: 600;
+  color: #0b1c30; /* on-surface */
+  letter-spacing: -0.015em; /* tracking-tight */
+}
+
+.brandHighlight {
+  color: #00685f; /* primary */
+}
+
+.subBrand {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px; /* text-label-sm */
+  line-height: 14px;
+  color: #3d4947; /* on-surface-variant */
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.adminBadge {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  padding: 0.25rem 0.5rem;
+  background-color: #e5eeff; /* surface-container */
+  color: #006398; /* secondary */
+  border-radius: 9999px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.navContainer {
+  padding: 0 1rem; /* px-space-md */
+  margin-top: 0.75rem; /* mt-space-sm */
+}
+
+.navTitle {
+  padding: 0 0.75rem; /* px-space-sm */
+  margin-bottom: 0.5rem; /* mb-space-xs */
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  color: #3d4947;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* gap-space-2xs */
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  color: #3d4947;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: #eff4ff; /* surface-container-low */
+  color: #0b1c30;
+}
+
+.navItemActive {
+  background-color: #008378; /* primary-container */
+  color: #ffffff; /* on-primary-container */
+  font-weight: 600;
+}
+
+.navItemText {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.profileSection {
+  padding: 1rem;
+  background-color: rgba(239, 244, 255, 0.5); /* surface-container-low/50 */
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.03);
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatarImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #006947; /* tertiary */
+  border-radius: 9999px;
+  border: 2px solid #ffffff;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0b1c30;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileRole {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  color: #006947;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logoutSection {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ba1a1a; /* error */
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0;
+}
+
+.logoutBtn:hover {
+  text-decoration: underline;
+}
+
+.versionText {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  color: #3d4947;
+}

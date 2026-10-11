@@ -16,6 +16,7 @@ export interface RoomDetailDto {
     ward: string;
     addressDetail: string;
     status: string;
+    rejectReason?: string; // Bổ sung trường lý do từ chối từ API
     viewCount?: number;
     images?: string[];
     amenities?: { id: number; name: string }[];
@@ -49,11 +50,11 @@ export default function LandlordRoomDetailPage() {
         const fetchRoomDetail = async () => {
             try {
                 setLoading(true);
-                const token = localStorage.getItem('accessToken'); // Lấy token từ localStorage
+                const token = localStorage.getItem('accessToken');
                 const response = await fetch(`${BASE_URL}/api/rooms/${id}`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${token ?? ''}` // Đính kèm token vào đây
+                        'Authorization': `Bearer ${token ?? ''}`
                     }
                 });
 
@@ -96,24 +97,42 @@ export default function LandlordRoomDetailPage() {
 
     const handleToggleStatus = async () => {
         if (!room) return;
+
+        // 1. Tin đang chờ duyệt
         if (room.status === 'Pending') {
             alert('Tin đang chờ duyệt, bạn không thể đổi trạng thái.');
             return;
         }
 
-        const newStatus = room.status === 'Available' ? 'Rented' : 'Available';
-        const confirmMsg = newStatus === 'Rented'
-            ? 'Xác nhận phòng này đã có khách thuê? Trạng thái sẽ chuyển sang "Đã cho thuê".'
-            : 'Bạn muốn mở lại tin đăng này (Đang cho thuê)?';
-
-        if (newStatus === 'Available') {
-            alert('Chức năng mở lại tin "Đã cho thuê" cần thông qua Admin. Vui lòng liên hệ BQT.');
+        // 2. Tin bị từ chối hoặc hết hạn
+        if (room.status === 'Rejected' || room.status === 'Expired') {
+            alert(
+                'Không thể trực tiếp đổi trạng thái tin đã bị từ chối ' +
+                'hoặc hết hạn. Vui lòng chỉnh sửa tin và gửi Admin duyệt lại.'
+            );
             return;
         }
 
+        // 3. Chỉ xử lý hai trạng thái hợp lệ
+        if (room.status !== 'Available' && room.status !== 'Rented') {
+            alert('Trạng thái phòng không hợp lệ.');
+            return;
+        }
+
+        // 4. Xác định trạng thái tiếp theo
+        const newStatus = room.status === 'Available'
+            ? 'Rented'
+            : 'Available';
+
+        const confirmMsg = newStatus === 'Rented'
+            ? 'Xác nhận phòng này đã có khách thuê? Trạng thái sẽ chuyển sang "Đã cho thuê".'
+            : 'Xác nhận khách thuê đã chuyển đi và phòng hiện đã trống? Trạng thái sẽ chuyển về "Còn trống" và tin có thể hiển thị lại cho người tìm phòng.';
+
+        // 5. Xác nhận và gọi API
         if (window.confirm(confirmMsg)) {
             try {
                 await changeRoomStatus(id as string, newStatus);
+
                 setRoom({ ...room, status: newStatus });
             } catch (err: any) {
                 alert(err.message || 'Lỗi khi đổi trạng thái.');
@@ -175,7 +194,7 @@ export default function LandlordRoomDetailPage() {
                             <div className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
                                 {room.status === 'Available' && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ecfdf5] text-[#065f46]">
-                                        <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span> Đang cho thuê (Available)
+                                        <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span> Có sẵn (Available)
                                     </span>
                                 )}
                                 {room.status === 'Rented' && (
@@ -186,6 +205,11 @@ export default function LandlordRoomDetailPage() {
                                 {room.status === 'Pending' && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fffbeb] text-[#b45309]">
                                         <span className="material-symbols-outlined text-[14px]">hourglass_top</span> Chờ duyệt (Pending)
+                                    </span>
+                                )}
+                                {room.status === 'Rejected' && (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ffdad6] text-[#93000a]">
+                                        <span className="material-symbols-outlined text-[14px]">block</span> Bị từ chối (Rejected)
                                     </span>
                                 )}
                                 <span className="px-2.5 py-1 rounded-full bg-[#e5eeff] text-[#3d4947]">Mã phòng: <strong className="text-[#0b1c30]">#{room.id}</strong></span>
@@ -209,6 +233,26 @@ export default function LandlordRoomDetailPage() {
 
                             {/* CỘT TRÁI (8 cols) */}
                             <div className="lg:col-span-8 flex flex-col gap-6">
+
+                                {/* HIỂN THỊ LÝ DO TỪ CHỐI (Nếu có) */}
+                                {room.status === 'Rejected' && (
+                                    <div className="bg-[#fff9e6] border border-[#ffdf70] p-5 rounded-2xl flex items-start gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-[#ffea9d] text-[#936b00] flex items-center justify-center shrink-0">
+                                            <span className="material-symbols-outlined text-[24px]">gpp_bad</span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <h3 className="font-['Plus_Jakarta_Sans'] font-bold text-[#7a5900] text-[16px]">
+                                                Tin đăng này đã bị quản trị viên từ chối duyệt
+                                            </h3>
+                                            <p className="text-[#3d4947] text-[14px] leading-relaxed">
+                                                <strong className="text-[#0b1c30]">Lý do từ chối:</strong> {room.rejectReason || "Tin đăng vi phạm chính sách nội dung của hệ thống (Chưa rõ chi tiết)."}
+                                            </p>
+                                            <p className="text-[#6d7a77] text-[13px] mt-1">
+                                                Vui lòng <span className="font-semibold text-[#00685f] cursor-pointer hover:underline" onClick={handleEdit}>Chỉnh sửa tin</span> theo đúng quy định để được duyệt lại.
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Photo Gallery */}
                                 <div className="bg-white p-4 rounded-2xl shadow-sm flex flex-col gap-3">
@@ -317,6 +361,8 @@ export default function LandlordRoomDetailPage() {
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#f1f5f9] text-[#475569] text-[12px] font-semibold">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-[#64748b]"></span> Đã thuê
                                                 </span>
+                                            ) : room.status === 'Rejected' ? (
+                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ffdad6] text-[#93000a] text-[12px] font-semibold">Từ chối</span>
                                             ) : (
                                                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ffedd5] text-[#9a3412] text-[12px] font-semibold">Chờ duyệt</span>
                                             )}
@@ -351,9 +397,7 @@ export default function LandlordRoomDetailPage() {
                                         </span>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </main>

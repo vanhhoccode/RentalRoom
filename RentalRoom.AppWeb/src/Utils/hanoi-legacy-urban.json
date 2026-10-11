@@ -1,0 +1,106 @@
+{
+  "province": "Hà Nội",
+  "provinceCode": "01",
+  "sourceYear": 2020,
+  "datasetType": "legacy-administrative",
+  "note": "Legacy district/ward hierarchy for compatibility with the project's District/Ward fields. This is not the current post-2025 legal administrative hierarchy.",
+  "source": "GitHub Gist - All wards of Vietnam (2020), administrative.csv",
+  "districts": [
+    {
+      "name": "Ba Đình",
+      "code": "001",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Cống Vị","code":"00007"},{"name":"Điện Biên","code":"00019"},{"name":"Đội Cấn","code":"00022"},{"name":"Giảng Võ","code":"00031"},{"name":"Kim Mã","code":"00028"},{"name":"Liễu Giai","code":"00008"},{"name":"Ngọc Hà","code":"00016"},{"name":"Ngọc Khánh","code":"00025"},{"name":"Nguyễn Trung Trực","code":"00010"},{"name":"Phúc Xá","code":"00001"},{"name":"Quán Thánh","code":"00013"},{"name":"Thành Công","code":"00034"},{"name":"Trúc Bạch","code":"00004"},{"name":"Vĩnh Phúc","code":"00006"}
+      ]
+    },
+    {
+      "name": "Bắc Từ Liêm",
+      "code": "021",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Cổ Nhuế 1","code":"00616"},{"name":"Cổ Nhuế 2","code":"00617"},{"name":"Đông Ngạc","code":"00601"},{"name":"Đức Thắng","code":"00602"},{"name":"Liên Mạc","code":"00598"},{"name":"Minh Khai","code":"00613"},{"name":"Phúc Diễn","code":"00620"},{"name":"Phú Diễn","code":"00619"},{"name":"Tây Tựu","code":"00607"},{"name":"Thượng Cát","code":"00595"},{"name":"Thuỵ Phương","code":"00604"},{"name":"Xuân Đỉnh","code":"00610"},{"name":"Xuân Tảo","code":"00611"}
+      ]
+    },
+    {
+      "name": "Cầu Giấy",
+      "code": "005",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Dịch Vọng","code":"00166"},{"name":"Dịch Vọng Hậu","code":"00167"},{"name":"Mai Dịch","code":"00163"},{"name":"Nghĩa Đô","code":"00157"},{"name":"Nghĩa Tân","code":"00160"},{"name":"Quan Hoa","code":"00169"},{"name":"Trung Hoà","code":"00175"},{"name":"Yên Hòa","code":"00172"}
+      ]
+    },
+    {
+      "name": "Đống Đa",
+      "code": "006",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Cát Linh","code":"00178"},{"name":"Hàng Bột","code":"00196"},{"name":"Khâm Thiên","code":"00202"},{"name":"Khương Thượng","code":"00238"},{"name":"Kim Liên","code":"00229"},{"name":"Láng Hạ","code":"00199"},{"name":"Láng Thượng","code":"00187"},{"name":"Nam Đồng","code":"00208"},{"name":"Ngã Tư Sở","code":"00235"},{"name":"Ô Chợ Dừa","code":"00190"},{"name":"Phương Liên","code":"00220"},{"name":"Phương Mai","code":"00232"},{"name":"Quang Trung","code":"00214"},{"name":"Quốc Tử Giám","code":"00184"},{"name":"Thịnh Quang","code":"00223"},{"name":"Thổ Quan","code":"00205"},{"name":"Trung Liệt","code":"00217"},{"name":"Trung Phụng","code":"00211"},{"name":"Trung Tự","code":"00226"},{"name":"Văn Chương","code":"00193"},{"name":"Văn Miếu","code":"00181"}
+      ]
+    },
+    {
+      "name": "Hà Đông",
+      "code": "268",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Biên Giang","code":"10123"},{"name":"Đồng Mai","code":"10117"},{"name":"Dương Nội","code":"09886"},{"name":"Hà Cầu","code":"09556"},{"name":"Kiến Hưng","code":"09565"},{"name":"La Khê","code":"09551"},{"name":"Mộ Lao","code":"09541"},{"name":"Nguyễn Trãi","code":"09538"},{"name":"Phúc La","code":"09553"},{"name":"Phú La","code":"09552"},{"name":"Phú Lãm","code":"09568"},{"name":"Phú Lương","code":"09571"},{"name":"Quang Trung","code":"09550"},{"name":"Vạn Phúc","code":"09544"},{"name":"Văn Quán","code":"09542"},{"name":"Yên Nghĩa","code":"09562"},{"name":"Yết Kiêu","code":"09547"}
+      ]
+    },
+    {
+      "name": "Hai Bà Trưng",
+      "code": "007",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Bạch Đằng","code":"00244"},{"name":"Bách Khoa","code":"00277"},{"name":"Bạch Mai","code":"00286"},{"name":"Bùi Thị Xuân","code":"00250"},{"name":"Cầu Dền","code":"00274"},{"name":"Đống Mác","code":"00265"},{"name":"Đồng Nhân","code":"00259"},{"name":"Đồng Tâm","code":"00280"},{"name":"Lê Đại Hành","code":"00256"},{"name":"Minh Khai","code":"00295"},{"name":"Ngô Thì Nhậm","code":"00253"},{"name":"Nguyễn Du","code":"00241"},{"name":"Phạm Đình Hổ","code":"00247"},{"name":"Phố Huế","code":"00262"},{"name":"Quỳnh Lôi","code":"00292"},{"name":"Quỳnh Mai","code":"00289"},{"name":"Thanh Lương","code":"00268"},{"name":"Thanh Nhàn","code":"00271"},{"name":"Trương Định","code":"00298"},{"name":"Vĩnh Tuy","code":"00283"}
+      ]
+    },
+    {
+      "name": "Hoàn Kiếm",
+      "code": "002",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Chương Dương Độ","code":"00067"},{"name":"Cửa Đông","code":"00055"},{"name":"Cửa Nam","code":"00073"},{"name":"Đồng Xuân","code":"00040"},{"name":"Hàng Bạc","code":"00061"},{"name":"Hàng Bài","code":"00088"},{"name":"Hàng Bồ","code":"00052"},{"name":"Hàng Bông","code":"00076"},{"name":"Hàng Buồm","code":"00046"},{"name":"Hàng Đào","code":"00049"},{"name":"Hàng Gai","code":"00064"},{"name":"Hàng Mã","code":"00043"},{"name":"Hàng Trống","code":"00070"},{"name":"Lý Thái Tổ","code":"00058"},{"name":"Phan Chu Trinh","code":"00085"},{"name":"Phúc Tân","code":"00037"},{"name":"Tràng Tiền","code":"00079"},{"name":"Trần Hưng Đạo","code":"00082"}
+      ]
+    },
+    {
+      "name": "Hoàng Mai",
+      "code": "008",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Đại Kim","code":"00316"},{"name":"Định Công","code":"00307"},{"name":"Giáp Bát","code":"00325"},{"name":"Hoàng Liệt","code":"00337"},{"name":"Hoàng Văn Thụ","code":"00322"},{"name":"Lĩnh Nam","code":"00328"},{"name":"Mai Động","code":"00310"},{"name":"Tân Mai","code":"00319"},{"name":"Thanh Trì","code":"00301"},{"name":"Thịnh Liệt","code":"00331"},{"name":"Trần Phú","code":"00334"},{"name":"Tương Mai","code":"00313"},{"name":"Vĩnh Hưng","code":"00304"},{"name":"Yên Sở","code":"00340"}
+      ]
+    },
+    {
+      "name": "Long Biên",
+      "code": "004",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Bồ Đề","code":"00139"},{"name":"Cự Khối","code":"00154"},{"name":"Đức Giang","code":"00124"},{"name":"Giang Biên","code":"00121"},{"name":"Gia Thụy","code":"00130"},{"name":"Long Biên","code":"00145"},{"name":"Ngọc Lâm","code":"00133"},{"name":"Ngọc Thụy","code":"00118"},{"name":"Phúc Đồng","code":"00151"},{"name":"Phúc Lợi","code":"00136"},{"name":"Sài Đồng","code":"00142"},{"name":"Thạch Bàn","code":"00148"},{"name":"Thượng Thanh","code":"00115"},{"name":"Việt Hưng","code":"00127"}
+      ]
+    },
+    {
+      "name": "Nam Từ Liêm",
+      "code": "019",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Cầu Diễn","code":"00592"},{"name":"Đại Mỗ","code":"00634"},{"name":"Mễ Trì","code":"00631"},{"name":"Mỹ Đình 1","code":"00625"},{"name":"Mỹ Đình 2","code":"00626"},{"name":"Phú Đô","code":"00632"},{"name":"Phương Canh","code":"00623"},{"name":"Tây Mỗ","code":"00628"},{"name":"Trung Văn","code":"00637"},{"name":"Xuân Phương","code":"00622"}
+      ]
+    },
+    {
+      "name": "Tây Hồ",
+      "code": "003",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Bưởi","code":"00109"},{"name":"Nhật Tân","code":"00094"},{"name":"Phú Thượng","code":"00091"},{"name":"Quảng An","code":"00100"},{"name":"Thuỵ Khuê","code":"00112"},{"name":"Tứ Liên","code":"00097"},{"name":"Xuân La","code":"00103"},{"name":"Yên Phụ","code":"00106"}
+      ]
+    },
+    {
+      "name": "Thanh Xuân",
+      "code": "009",
+      "type": "urban_district",
+      "wards": [
+        {"name":"Hạ Đình","code":"00361"},{"name":"Khương Đình","code":"00364"},{"name":"Khương Mai","code":"00352"},{"name":"Khương Trung","code":"00349"},{"name":"Kim Giang","code":"00373"},{"name":"Nhân Chính","code":"00343"},{"name":"Phương Liệt","code":"00358"},{"name":"Thanh Xuân Bắc","code":"00367"},{"name":"Thanh Xuân Nam","code":"00370"},{"name":"Thanh Xuân Trung","code":"00355"},{"name":"Thượng Đình","code":"00346"}
+      ]
+    }
+  ]
+}

@@ -12,6 +12,9 @@ export interface RoomDto {
   status?: string;
   thumbnailUrl?: string;
   imageUrl?: string;
+  amenities?: string[];
+  imageCount: string | number;
+  hasReported?: boolean;
 }
 
 export interface UpdateRoomRequestDto {
