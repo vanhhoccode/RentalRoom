@@ -66,6 +66,8 @@ builder.Services.AddScoped<FavoriteDAO>();
 builder.Services.AddScoped<FavoriteBiz>();
 builder.Services.AddScoped<ReportDAO>();
 builder.Services.AddScoped<ReportBiz>();
+builder.Services.AddScoped<AdminDAO>();
+builder.Services.AddScoped<AdminBiz>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddHostedService<RoomExpirationBackgroundService>();
 

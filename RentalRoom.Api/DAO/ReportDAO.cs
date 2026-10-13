@@ -123,7 +123,8 @@ public class ReportDAO
                 Status = @Status,
                 ResolvedBy = @ResolvedBy,
                 ResolvedAt = SYSDATETIME()
-            WHERE Id = @Id;
+            WHERE Id = @Id
+              AND Status = 'Pending';
             """;
 
         await using var command = new SqlCommand(sql, connection);

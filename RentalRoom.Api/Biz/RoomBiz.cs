@@ -1,3 +1,4 @@
+using RentalRoom.Api.DTOs.Admin;
 using RentalRoom.Api.Common.Exceptions;
 using RentalRoom.Api.DAO;
 using RentalRoom.Api.DTOs;
@@ -732,9 +733,9 @@ public class RoomBiz
         if (!updated)
         {
             throw new AppException(
-                "APPROVE_FAILED",
-                "Không thể duyệt tin đăng.",
-                500);
+                "ROOM_STATUS_CHANGED",
+                "Trạng thái tin đăng đã thay đổi. Hãy tải lại danh sách.",
+                409);
         }
     }
     public async Task RejectRoomAsync(int roomId, string rejectReason)
@@ -784,22 +785,23 @@ public class RoomBiz
         if (!updated)
         {
             throw new AppException(
-                "REJECT_FAILED",
-                "Không thể từ chối tin đăng.",
-                500);
+                "ROOM_STATUS_CHANGED",
+                "Trạng thái tin đăng đã thay đổi. Hãy tải lại danh sách.",
+                409);
         }
 
-        // [FIX BUG 4] Dọn file ảnh khi tin bị từ chối
+        // Giữ nguyên ảnh để chủ trọ có thể chỉnh sửa tin bị từ chối và gửi duyệt lại.
     }
-    //Review: Ko nen xoa anh khi bi tu choi
-    //Review: Thiếu thông tin về chủ trọ => admin ko bt ai đăng tin.
-    //Sau khi sua thong tin tro thi p chuyen lai ve pending de admin duyet lai
-    public async Task<List<RoomResponse>> GetPendingRoomsAsync()
+    // Danh sách Pending trả thêm thông tin chủ trọ để Admin biết ai đã đăng tin.
+    public async Task<List<AdminPendingRoomResponse>> GetPendingRoomsAsync()
     {
         var rooms = await _roomDAO.GetByStatusAsync("Pending");
-        return rooms.Select(room => new RoomResponse
+        return rooms.Select(room => new AdminPendingRoomResponse
         {
             Id = room.Id,
+            LandlordId = room.LandlordId,
+            LandlordName = room.LandlordName,
+            LandlordPhone = room.LandlordPhone,
             CategoryId = room.CategoryId,
             Title = room.Title,
             Description = room.Description,
@@ -811,7 +813,8 @@ public class RoomBiz
             Status = room.Status,
             ViewCount = room.ViewCount,
             CreatedAt = room.CreatedAt,
-            ImageUrl = room.ImageUrl
+            ImageUrl = room.ImageUrl,
+            RejectReason = room.RejectReason
         }).ToList();
     }
     private int GetCurrentUserId()

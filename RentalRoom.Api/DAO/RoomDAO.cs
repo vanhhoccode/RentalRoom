@@ -181,6 +181,8 @@ public class RoomDAO
         SELECT
             r.Id,
             r.LandlordId,
+            u.FullName AS LandlordName,
+            u.Phone AS LandlordPhone,
             r.CategoryId,
             r.Title,
             r.Description,
@@ -190,6 +192,7 @@ public class RoomDAO
             r.Ward,
             r.AddressDetail,
             r.Status,
+            r.RejectReason,
             r.ViewCount,
             r.CreatedAt,
             r.UpdatedAt,
@@ -197,6 +200,7 @@ public class RoomDAO
             r.IsDeleted,
             img.Url AS ImageUrl
         FROM Rooms r
+        INNER JOIN Users u ON u.Id = r.LandlordId
         OUTER APPLY
         (
             SELECT TOP 1 Url
@@ -221,6 +225,12 @@ public class RoomDAO
             {
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                 LandlordId = reader.GetInt32(reader.GetOrdinal("LandlordId")),
+                LandlordName = reader.IsDBNull(reader.GetOrdinal("LandlordName"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("LandlordName")),
+                LandlordPhone = reader.IsDBNull(reader.GetOrdinal("LandlordPhone"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("LandlordPhone")),
                 CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
                 Title = reader.GetString(reader.GetOrdinal("Title")),
                 Description = reader.GetString(reader.GetOrdinal("Description")),
@@ -230,6 +240,9 @@ public class RoomDAO
                 Ward = reader.GetString(reader.GetOrdinal("Ward")),
                 AddressDetail = reader.GetString(reader.GetOrdinal("AddressDetail")),
                 Status = reader.GetString(reader.GetOrdinal("Status")),
+                RejectReason = reader.IsDBNull(reader.GetOrdinal("RejectReason"))
+                    ? null
+                    : reader.GetString(reader.GetOrdinal("RejectReason")),
                 ViewCount = reader.GetInt32(reader.GetOrdinal("ViewCount")),
                 CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
 
@@ -301,7 +314,12 @@ public class RoomDAO
             UpdatedAt = SYSDATETIME(),
             UpdatedBy = @UpdatedBy
         WHERE Id = @Id
-          AND IsDeleted = 0;
+          AND IsDeleted = 0
+          AND (
+                (@Status = 'Available' AND Status IN ('Pending', 'Rented'))
+                OR (@Status = 'Rejected' AND Status = 'Pending')
+                OR (@Status = 'Rented' AND Status = 'Available')
+              );
         """;
         await using var command = new SqlCommand(sql, connection);
         command.Parameters.Add("@Id", SqlDbType.Int).Value = roomId;
@@ -577,7 +595,7 @@ FETCH NEXT @PageSize ROWS ONLY;
             ? null
             : reader.GetString(reader.GetOrdinal("LandlordName")),
 
-                    LandlordPhone = reader.IsDBNull(reader.GetOrdinal("LandlordPhone"))
+            LandlordPhone = reader.IsDBNull(reader.GetOrdinal("LandlordPhone"))
             ? null
             : reader.GetString(reader.GetOrdinal("LandlordPhone")),
             CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),

@@ -156,10 +156,18 @@ public class ReportBiz
                 400);
         }
 
-        await _reportDAO.UpdateStatusAsync(
+        var updated = await _reportDAO.UpdateStatusAsync(
             reportId,
             status,
             adminId);
+
+        if (!updated)
+        {
+            throw new AppException(
+                "REPORT_STATUS_CONFLICT",
+                "Báo cáo đã được xử lý hoặc trạng thái đã thay đổi. Hãy tải lại danh sách.",
+                409);
+        }
     }
     public async Task<List<ReportResponse>> GetListAsync(string? status)
     {

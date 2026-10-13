@@ -1,0 +1,113 @@
+@reference "../../index.css";
+
+.pageContainer {
+  @apply bg-[#f8f9ff] font-['Be_Vietnam_Pro'] text-[#0b1c30] antialiased min-h-screen flex flex-col;
+}
+
+.mainWrapper {
+  @apply w-full pt-6 flex-grow;
+}
+
+.contentContainer {
+  @apply max-w-[1280px] mx-auto px-4 lg:px-6 w-full pb-16 flex flex-col gap-6;
+}
+
+/* Header */
+.headerTitle {
+  @apply font-['Plus_Jakarta_Sans'] text-[32px] text-[#0b1c30] tracking-tight font-bold;
+}
+
+.badgeUrgent {
+  @apply inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffdad6] text-[#93000a] text-[12px] font-bold tracking-wider uppercase mb-2;
+}
+
+/* KPI Cards */
+.kpiGrid {
+  @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-2;
+}
+
+.kpiCard {
+  @apply p-5 rounded-2xl bg-white shadow-sm border border-[#eaf1ff] flex flex-col justify-between;
+}
+
+/* Grid Layout Master-Detail */
+.mainGrid {
+  @apply grid grid-cols-1 xl:grid-cols-12 gap-6 items-start;
+}
+
+.leftCol {
+  @apply xl:col-span-7 flex flex-col gap-4;
+}
+
+.rightCol {
+  @apply xl:col-span-5 flex flex-col gap-4 sticky top-24;
+}
+
+/* Table */
+.tableWrapper {
+  @apply bg-white rounded-2xl shadow-sm border border-[#eaf1ff] overflow-hidden;
+}
+
+.tableHeader {
+  @apply px-4 py-3 bg-[#f8f9ff] border-b border-[#eaf1ff] flex items-center justify-between text-[#6d7a77] text-[13px];
+}
+
+.tableRow {
+  @apply border-b border-[#f1f5f9] last:border-0 transition-colors hover:bg-[#f8f9ff] cursor-pointer;
+}
+
+.tableRowActive {
+  @apply bg-[#f0fdf4] border-l-2 border-l-[#16a34a];
+}
+
+/* Drawer Detail (Cột Phải) */
+.drawerContainer {
+  @apply bg-white rounded-2xl shadow-md border border-[#eaf1ff] overflow-hidden;
+}
+
+.drawerHeader {
+  @apply p-5 bg-gradient-to-r from-[#eaf1ff] to-[#f8f9ff] flex justify-between border-b border-[#eaf1ff];
+}
+
+.drawerBody {
+  @apply p-5 flex flex-col gap-5 max-h-[calc(100vh-250px)] overflow-y-auto;
+}
+
+.sectionBlock {
+  @apply p-4 bg-[#f8f9ff] rounded-xl border border-[#eaf1ff] flex flex-col gap-2;
+}
+
+.sectionTitle {
+  @apply text-[11px] font-bold text-[#aab8b5] uppercase tracking-wider mb-1;
+}
+
+/* Buttons */
+.btnDismiss {
+  @apply flex-1 py-2.5 bg-white border border-[#eaf1ff] text-[#6d7a77] rounded-xl font-bold hover:bg-[#ffdad6] hover:text-[#ba1a1a] hover:border-[#ffdad6] transition-colors shadow-sm;
+}
+
+.btnResolve {
+  @apply flex-[2] py-2.5 bg-[#00685f] text-white rounded-xl font-bold hover:bg-[#008378] transition-colors shadow-sm flex justify-center items-center gap-2;
+}
+
+/* Modal */
+.modalOverlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0b1c30]/50 backdrop-blur-sm;
+}
+
+.modalContent {
+  @apply bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl;
+}
+
+/* Toast */
+.toast {
+  @apply fixed bottom-8 right-8 z-50 flex items-center gap-3 px-5 py-4 rounded-xl shadow-2xl transition-all duration-300;
+}
+
+.toastSuccess {
+  @apply bg-[#00201d] text-[#89f5e7];
+}
+
+.toastError {
+  @apply bg-[#93000a] text-white;
+}
